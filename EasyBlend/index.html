@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sculpt Lite – Modellazione organica 3D</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-mode="sculpt">
+  <div id="app">
+
+    <!-- BARRA SUPERIORE: modalità, undo/redo, impostazioni del pennello -->
+    <header id="topbar">
+      <button id="btn-mode" title="Alterna Scultura / Trasformazione (Tab)">Sposta / Trasforma</button>
+      <button id="btn-undo" title="Annulla (Ctrl+Z)">↶</button>
+      <button id="btn-redo" title="Ripristina (Ctrl+Y)">↷</button>
+      <strong id="tool-label">Draw</strong>
+      <label>Raggio (mm)
+        <input type="range" id="radius" step="0.5"><output id="radius-val"></output>
+      </label>
+      <label>Intensità
+        <input type="range" id="strength" step="0.01"><output id="strength-val"></output>
+      </label>
+      <label class="check"><input type="checkbox" id="symmetry" checked> Simmetria X</label>
+    </header>
+
+    <!-- BARRA SINISTRA: pennelli (data-tool = chiave in BRUSHES) -->
+    <nav id="toolbar">
+      <button data-tool="draw" class="active" title="Draw / Clay (D) – Alt = spingi dentro"><span>●</span>Draw</button>
+      <button data-tool="smooth"  title="Leviga (S)"><span>≈</span>Smooth</button>
+      <button data-tool="grab"    title="Sposta (G)"><span>✥</span>Grab</button>
+      <button data-tool="flatten" title="Appiattisci (L)"><span>▬</span>Flatten</button>
+      <button data-tool="inflate" title="Gonfia (I)"><span>◐</span>Inflate</button>
+      <button data-tool="pinch"   title="Pizzica / Piega (P) – Alt = allarga"><span>⋈</span>Pinch</button>
+      <button data-tool="mask"    title="Maschera (M) – Alt = cancella"><span>◼</span>Mask</button>
+    </nav>
+
+    <!-- VIEWPORT 3D (accetta drag-and-drop di .glb .gltf .stl) -->
+    <main id="viewport"></main>
+
+    <!-- PANNELLO DESTRO -->
+    <aside id="panel">
+      <section>
+        <h2>Oggetti</h2>
+        <ul id="mesh-list"></ul>
+        <div class="row">
+          <button id="btn-import">Importa…</button>
+          <button id="btn-reset">Reset scena</button>
+        </div>
+        <input type="file" id="file-input" accept=".glb,.gltf,.stl" multiple hidden>
+      </section>
+
+      <section class="dims">
+        <h2>Nuova primitiva (mm)</h2>
+        <select id="prim-type">
+          <option value="box">Cubo / Parallelepipedo</option><option value="cylinder">Cilindro</option>
+          <option value="cone">Cono</option><option value="torus">Toro</option>
+          <option value="uvsphere">UV Sphere</option><option value="icosphere">IcoSphere</option>
+        </select>
+        <div class="row">
+          <label>X<input type="number" id="px" value="50" min="1"></label>
+          <label>Y<input type="number" id="py" value="50" min="1"></label>
+          <label>Z<input type="number" id="pz" value="50" min="1"></label>
+        </div>
+        <button id="btn-create">Crea</button>
+      </section>
+
+      <section class="dims">
+        <h2>Oggetto attivo</h2>
+        <div class="row">
+          <button data-gizmo="translate" class="active">Sposta</button>
+          <button data-gizmo="rotate">Ruota</button>
+          <button data-gizmo="scale">Scala</button>
+        </div>
+        <div class="row">
+          <label>X mm<input type="number" id="ax" min="0.1" step="0.1"></label>
+          <label>Y mm<input type="number" id="ay" min="0.1" step="0.1"></label>
+          <label>Z mm<input type="number" id="az" min="0.1" step="0.1"></label>
+        </div>
+        <button id="btn-mask-clear">Cancella maschera</button>
+      </section>
+
+      <section>
+        <h2>Griglia</h2>
+        <label class="check"><input type="checkbox" id="grid-vis" checked> Mostra griglia</label>
+        <label class="check"><input type="checkbox" id="snap"> Snap alla griglia</label>
+        <label>Cella (mm) <input type="number" id="grid-step" value="10" min="1" step="1"></label>
+      </section>
+
+      <section>
+        <h2>Vista</h2>
+        <select id="material">
+          <option value="clay">Argilla opaca</option><option value="metal">Metallico (MatCap)</option>
+          <option value="wax">Cera rossa (MatCap)</option>
+        </select>
+        <label class="check"><input type="checkbox" id="wireframe"> Wireframe</label>
+        <button id="btn-focus" title="Tasto F">Focus sull'oggetto</button>
+      </section>
+
+      <section>
+        <h2>Esporta (mesh visibili, mm)</h2>
+        <div class="row"><button id="btn-stl">STL</button><button id="btn-obj">OBJ</button></div>
+      </section>
+
+      <p class="hint">Tab = modalità · D S G L I P M = pennelli · X = simmetria · F = focus · W E R = gizmo · Canc = elimina</p>
+    </aside>
+  </div>
+
+  <!-- Three.js r147: ultima versione con i build "classici" (nessun modulo ES → funziona anche da file://) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/TransformControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/utils/BufferGeometryUtils.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
