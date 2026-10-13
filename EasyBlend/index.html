@@ -39,7 +39,26 @@
     <nav id="toolbar"><div id="tabs"></div><div id="tools"></div></nav>
 
     <!-- VIEWPORT 3D (drag-and-drop di .glb .gltf .stl) -->
-    <main id="viewport"></main>
+    <main id="viewport">
+      <!-- HUD numerico dello schizzo (campi per valori esatti) -->
+      <div id="sk-hud" hidden>
+        <label><span id="hud-la"></span><input type="number" id="hud-a" step="0.1" min="0"></label>
+        <label id="hud-lb"><span data-i18n="skAng"></span><input type="number" id="hud-b" step="1"></label>
+      </div>
+      <!-- Barra fluttuante inferiore: strumenti di visualizzazione (gli id sono gli stessi di prima: nessun cambio di logica) -->
+      <div id="viewbar">
+        <button id="btn-cam" data-i18n-title="resetCam">⌂</button>
+        <button id="btn-frame" data-i18n-title="frameAll">⛶</button>
+        <button id="btn-focus" data-i18n-title="focus">◎</button>
+        <span class="sep"></span>
+        <label class="vb" data-i18n-title="wire"><input type="checkbox" id="wireframe">▦</label>
+        <select id="material" data-i18n-title="view">
+          <option value="clay" data-i18n="clay"></option><option value="metal" data-i18n="metal"></option><option value="wax" data-i18n="wax"></option>
+        </select>
+        <span class="sep"></span>
+        <button id="btn-shot" data-i18n-title="shot">⎙</button>
+      </div>
+    </main>
 
     <!-- PANNELLO DESTRO: ogni <section> è un gruppo separato da un divisore (vedi style.css) -->
     <aside id="panel">
@@ -62,12 +81,19 @@
         </div>
         <button id="btn-create" data-i18n="create"></button>
         <h3 class="sub" data-i18n="sketch"></h3>
+        <h4 class="sub" data-i18n="skPlane"></h4>
+        <div class="row planes">
+          <button data-plane="xy" class="active">XY</button><button data-plane="xz">XZ</button><button data-plane="yz">YZ</button><button data-plane="face" data-i18n="skFace"></button>
+        </div>
         <div class="row">
-          <button data-sk="rect" data-i18n="skRect"></button><button data-sk="circle" data-i18n="skCircle"></button><button data-sk="poly" data-i18n="skPoly"></button>
+          <button data-sk="line" data-i18n="skLine"></button><button data-sk="arc" data-i18n="skArc"></button>
+        </div>
+        <div class="row">
+          <button data-sk="rect" data-i18n="skRect"></button><button data-sk="circle" data-i18n="skCircle"></button>
         </div>
         <label><span data-i18n="skThick"></span> <input type="number" id="sk-depth" value="10" min="0.1" step="0.5"></label>
         <div class="row"><button id="sk-extrude" data-i18n="skExtrude" disabled></button><button id="sk-cut" data-i18n="skCut" disabled></button></div>
-        <p class="note" data-i18n="skHint"></p>
+        <p class="note" data-i18n="skHint2"></p>
       </details>
 
       <details class="acc dims" open><summary data-i18n="active"></summary>
@@ -86,23 +112,13 @@
         <button id="btn-mask-clear" data-i18n="clearMask"></button>
       </details>
 
-      <details class="acc" open><summary data-i18n="grid"></summary>
+      <details class="acc"><summary data-i18n="grid"></summary>
         <label class="check"><input type="checkbox" id="grid-vis" checked> <span data-i18n="showGrid"></span></label>
         <label class="check"><input type="checkbox" id="snap"> <span data-i18n="snap"></span></label>
         <label><span data-i18n="cell"></span> <input type="number" id="grid-step" value="10" min="1" step="1"></label>
       </details>
 
-      <details class="acc" open><summary data-i18n="view"></summary>
-        <select id="material">
-          <option value="clay" data-i18n="clay"></option><option value="metal" data-i18n="metal"></option>
-          <option value="wax" data-i18n="wax"></option>
-        </select>
-        <label class="check"><input type="checkbox" id="wireframe"> <span data-i18n="wire"></span></label>
-        <div class="row"><button id="btn-focus" data-i18n="focus"></button><button id="btn-frame" data-i18n="frameAll"></button></div>
-        <div class="row"><button id="btn-cam" data-i18n="resetCam"></button><button id="btn-shot" data-i18n="shot"></button></div>
-      </details>
-
-      <details class="acc" open><summary data-i18n="export"></summary>
+      <details class="acc"><summary data-i18n="export"></summary>
         <div class="row"><button id="btn-stl">STL</button><button id="btn-obj">OBJ</button></div>
       </details>
     </aside>
