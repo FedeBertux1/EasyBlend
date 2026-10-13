@@ -194,6 +194,7 @@ function spawn(items, dims) {
     geo.attributes.position.setUsage(THREE.DynamicDrawUsage);      // buffer aggiornati di continuo
     geo.attributes.normal.setUsage(THREE.DynamicDrawUsage);
     const mesh = new THREE.Mesh(geo, material); scene.add(mesh);
+    mesh.rotation.order = 'YZX';                           // = Euler XYZ di Blender nel sistema Z-up (vedi UI_AXIS); va impostato a rotazione zero
     recs.push({ name: items[k].name, mesh, geo, mask: new Float32Array(n), nb: null });
   });
   markDirty(); setActive(recs[recs.length - 1]);
@@ -240,6 +241,10 @@ function resetScene() {
    Scala   → dimensioni vere in mm (geometria × scala; l'unica modalità che cambia le proporzioni)
    Binding bidirezionale: UI → mesh (applyField, evento 'input') e mesh → UI (syncDims, chiamata anche dal gizmo). */
 const FIELD_IDS = ['ax', 'ay', 'az'], DEG = 180 / Math.PI;
+/* Assi dell'INTERFACCIA = Z verso l'alto, Y in profondità sul piano (come Blender, slicer e l'export STL).
+   Three.js invece ha Y verso l'alto. Campo UI i → asse Three.js UI_AXIS[i], con segno UI_SIGN[i] per posizione e rotazione:
+   X→x · Y→z (segno -) · Z→y. Le dimensioni (scala) non hanno segno: scambio puro di assi. */
+const UI_AXIS = ['x', 'z', 'y'], UI_SIGN = [1, -1, 1];
 function geoBox(rec) {                                      // box locale della geometria (in cache)
   if (!rec.bb) { rec.geo.computeBoundingBox(); rec.bb = rec.geo.boundingBox.clone(); }
   return rec.bb;
@@ -249,10 +254,9 @@ function objSize(rec) {                                     // dimensioni locali
   const k = rec.mesh.scale;
   return geoBox(rec).getSize(new THREE.Vector3()).multiply(new THREE.Vector3(Math.abs(k.x), Math.abs(k.y), Math.abs(k.z)));
 }
-function fieldValues() {                                    // valori da mostrare per il gizmo attivo
-  const r = active.mesh.rotation;
-  if (state.gizmo === 'rotate') return [r.x * DEG, r.y * DEG, r.z * DEG];   // radianti → gradi
-  return (state.gizmo === 'scale' ? objSize(active) : worldCenter(active)).toArray();
+function fieldValues() {                                    // valori da mostrare per il gizmo attivo (mesh → UI)
+  const g = state.gizmo, src = g === 'rotate' ? active.mesh.rotation : g === 'scale' ? objSize(active) : worldCenter(active);
+  return UI_AXIS.map((a, i) => src[a] * (g === 'scale' ? 1 : UI_SIGN[i]) * (g === 'rotate' ? DEG : 1));   // rotazione: radianti → gradi
 }
 function syncDims() {                                       // mesh → UI (non tocca il campo in cui si sta digitando)
   const v = active ? fieldValues() : null;
@@ -274,9 +278,9 @@ function updateFieldMeta() {                                // titolo, passo e v
 function applyField(i, value) {                             // UI → mesh
   if (!active || !Number.isFinite(value)) return;           // campo vuoto / non valido: ignora
   if (state.mode !== 'transform') setMode('transform');     // editare un campo = passare alla modalità Trasforma
-  const m = active.mesh, a = 'xyz'[i];
-  if (state.gizmo === 'translate') m.position[a] += value - worldCenter(active)[a];
-  else if (state.gizmo === 'rotate') m.rotation[a] = value / DEG;          // gradi → radianti
+  const m = active.mesh, a = UI_AXIS[i], sg = UI_SIGN[i];     // a = asse Three.js corrispondente al campo UI
+  if (state.gizmo === 'translate') m.position[a] += value * sg - worldCenter(active)[a];
+  else if (state.gizmo === 'rotate') m.rotation[a] = sg * value / DEG;     // gradi → radianti
   else {
     const g = geoBox(active).getSize(new THREE.Vector3());
     if (!(value > 0) || !(g[a] > 1e-9)) return;
@@ -671,7 +675,8 @@ $('btn-frame').addEventListener('click', frameAll);
 $('btn-cam').addEventListener('click', resetCamera);
 $('btn-help').addEventListener('click', () => $('help').showModal());
 $('btn-create').addEventListener('click', () => {
-  const dims = ['px', 'py', 'pz'].map(id => Math.max(1, +$(id).value || 1)), type = $('prim-type').value;
+  // ordine Three.js [x, y (altezza), z] = campi UI [X, Z, Y]: nell'interfaccia Z è l'altezza
+  const dims = ['px', 'pz', 'py'].map(id => Math.max(1, +$(id).value || 1)), type = $('prim-type').value;
   spawn([{ geo: makePrimitive(type), name: $('prim-type').selectedOptions[0].text }], dims); focusActive();
 });
 // UI → mesh: ogni tasto digitato aggiorna subito la mesh; al blur il valore viene riformattato
