@@ -24,6 +24,7 @@ const CONFIG = {
   historyMax: 50,       // passi di undo
   gltfScale: 1000,      // glTF è in metri → ×1000 per avere mm (STL si assume già in mm)
   stlZUp: true,         // esporta STL con asse Z verso l'alto (slicer)
+  kofiUrl: 'https://ko-fi.com/easyblend',   // ← metti qui il TUO link Ko-fi (pulsante "Sostieni il progetto")
   clayColor: 0xb5a79a, bgColor: 0x282828, accent: 0xE87D0D
 };
 const state = { mode: 'sculpt', tool: 'draw', radius: CONFIG.radius.value, strength: CONFIG.strength.value,
@@ -52,7 +53,16 @@ const I18N = {
     view: 'View', clay: 'Matte clay', metal: 'Metallic (MatCap)', wax: 'Red wax (MatCap)', wire: 'Wireframe', focus: 'Focus on object',
     frameAll: 'Frame all', resetCam: 'Reset camera', shot: 'Screenshot (PNG)', export: 'Export (visible meshes, mm)',
     shortcuts: 'Keyboard shortcuts', close: 'Close', keyMode: 'Sculpt / Transform mode', keyInvert: 'Invert brush (hold)', keyDel: 'Delete object',
-    errFormat: 'Unsupported format: use .glb, .gltf or .stl', errEmpty: 'No mesh found in the file.', errGltf: 'glTF error: ' },
+    errFormat: 'Unsupported format: use .glb, .gltf or .stl', errEmpty: 'No mesh found in the file.', errGltf: 'glTF error: ',
+    objects: 'Objects & scene', newPrim: 'Primitives & 2D sketch', active: 'Transform & size', grid: 'Environment & grid', view: 'View & materials',
+    donate: 'Support the project', legalBtn: 'Info & Terms', legalTitle: 'Info, Terms & Privacy',
+    lg1h: 'Privacy & data', lg1: `EasyBlend runs entirely in your browser (client side). The app itself does not collect, track or send any personal data, profiling cookies or 3D models to external servers. Your preferences (e.g. language) are stored only in your browser. The optional Ko-fi donation link opens a third-party site with its own policies.`,
+    lg2h: 'Disclaimer (AS IS)', lg2: `The application is provided free of charge “AS IS”, without warranties of any kind. The developer is not liable for browser crashes, incompatibilities or loss of unsaved data. Please export your work often.`,
+    lg3h: 'Intellectual property', lg3: `All 3D models you create, edit and export with EasyBlend belong 100% to you, for any personal or commercial use.`,
+    tBuild: 'Build', tDeform: 'Deform', tDetail: 'Detail', tMask: 'Mask',
+    drawSharp: 'Draw Sharp', clayB: 'Clay', clayStrips: 'Clay Strips', layer: 'Layer', blob: 'Blob', crease: 'Crease', scrape: 'Scrape', fill: 'Fill', deepen: 'Deepen', snake: 'Snake Hook', nudge: 'Nudge', twist: 'Rotate',
+    sketch: '2D Sketch', skRect: 'Rectangle', skCircle: 'Circle', skPoly: 'Polygon', skThick: 'Thickness (mm)', skExtrude: 'Extrude new body', skCut: 'Cut (pocket)',
+    skHint: 'Click a face (or the grid) and draw. Polygon: click points, Enter or double-click to close. Cut digs a pocket in the active mesh.' },
   it: { fMove: 'Posizione (mm)', fRotate: 'Rotazione (°)', fScale: 'Dimensioni (mm)', mode: 'Sposta / Trasforma', undo: 'Annulla', redo: 'Ripristina', radius: 'Raggio (mm)', strength: 'Intensità', sym: 'Simmetria X',
     draw: 'Disegna', smooth: 'Leviga', grab: 'Sposta', flatten: 'Appiattisci', inflate: 'Gonfia', pinch: 'Pizzica', mask: 'Maschera',
     objects: 'Oggetti', import: 'Importa…', reset: 'Reset scena', vis: 'Mostra / nascondi', del: 'Elimina',
@@ -62,7 +72,16 @@ const I18N = {
     view: 'Vista', clay: 'Argilla opaca', metal: 'Metallico (MatCap)', wax: 'Cera rossa (MatCap)', wire: 'Wireframe', focus: "Focus sull'oggetto",
     frameAll: 'Inquadra tutto', resetCam: 'Reimposta fotocamera', shot: 'Screenshot (PNG)', export: 'Esporta (mesh visibili, mm)',
     shortcuts: 'Scorciatoie da tastiera', close: 'Chiudi', keyMode: 'Modalità Scultura / Trasforma', keyInvert: 'Inverti pennello (tieni premuto)', keyDel: 'Elimina oggetto',
-    errFormat: 'Formato non supportato: usa .glb, .gltf o .stl', errEmpty: 'Nessuna mesh trovata nel file.', errGltf: 'Errore glTF: ' },
+    errFormat: 'Formato non supportato: usa .glb, .gltf o .stl', errEmpty: 'Nessuna mesh trovata nel file.', errGltf: 'Errore glTF: ',
+    objects: 'Oggetti e scena', newPrim: 'Primitive e schizzi 2D', active: 'Trasformazioni e dimensioni', grid: 'Ambiente e griglia', view: 'Vista e materiali',
+    donate: 'Sostieni il progetto', legalBtn: 'Info e Termini', legalTitle: 'Info, Termini e Privacy',
+    lg1h: 'Privacy e dati', lg1: `EasyBlend funziona interamente nel tuo browser (lato client). L'app stessa non raccoglie, traccia né invia a server esterni dati personali, cookie di profilazione o modelli 3D. Le preferenze (ad es. la lingua) restano solo nel tuo browser. Il link di donazione Ko-fi, facoltativo, apre un sito di terzi con le proprie politiche.`,
+    lg2h: 'Esclusione di responsabilità (AS IS)', lg2: `L'applicazione è fornita gratuitamente “così com'è”, senza garanzie di alcun tipo. Lo sviluppatore non è responsabile di arresti anomali del browser, incompatibilità o perdite di dati non salvati. Esporta spesso i tuoi lavori.`,
+    lg3h: 'Proprietà intellettuale', lg3: `Tutti i modelli 3D creati, modificati ed esportati con EasyBlend appartengono al 100% a te, per qualsiasi uso personale o commerciale.`,
+    tBuild: 'Crea', tDeform: 'Deforma', tDetail: 'Dettaglio', tMask: 'Maschera',
+    drawSharp: 'Disegna netto', clayB: 'Argilla', clayStrips: 'Strisce argilla', layer: 'Strato', blob: 'Blob', crease: 'Piega', scrape: 'Raschia', fill: 'Riempi', deepen: 'Scava', snake: 'Gancio', nudge: 'Spingi', twist: 'Ruota',
+    sketch: 'Schizzo 2D', skRect: 'Rettangolo', skCircle: 'Cerchio', skPoly: 'Poligono', skThick: 'Spessore (mm)', skExtrude: 'Estrudi nuovo corpo', skCut: 'Taglia (scavo)',
+    skHint: 'Clicca su una faccia (o sulla griglia) e disegna. Poligono: clic sui punti, Invio o doppio clic per chiudere. Il taglio scava una tasca nella mesh attiva.' },
   es: { fMove: 'Posición (mm)', fRotate: 'Rotación (°)', fScale: 'Tamaño (mm)', mode: 'Mover / Transformar', undo: 'Deshacer', redo: 'Rehacer', radius: 'Radio (mm)', strength: 'Intensidad', sym: 'Simetría X',
     draw: 'Dibujar', smooth: 'Suavizar', grab: 'Mover', flatten: 'Aplanar', inflate: 'Inflar', pinch: 'Pellizcar', mask: 'Máscara',
     objects: 'Objetos', import: 'Importar…', reset: 'Reiniciar escena', vis: 'Mostrar / ocultar', del: 'Eliminar',
@@ -72,7 +91,16 @@ const I18N = {
     view: 'Vista', clay: 'Arcilla mate', metal: 'Metálico (MatCap)', wax: 'Cera roja (MatCap)', wire: 'Estructura alámbrica', focus: 'Enfocar objeto',
     frameAll: 'Encuadrar todo', resetCam: 'Restablecer cámara', shot: 'Captura (PNG)', export: 'Exportar (mallas visibles, mm)',
     shortcuts: 'Atajos de teclado', close: 'Cerrar', keyMode: 'Modo Escultura / Transformar', keyInvert: 'Invertir pincel (mantener)', keyDel: 'Eliminar objeto',
-    errFormat: 'Formato no compatible: usa .glb, .gltf o .stl', errEmpty: 'No se encontró ninguna malla en el archivo.', errGltf: 'Error de glTF: ' },
+    errFormat: 'Formato no compatible: usa .glb, .gltf o .stl', errEmpty: 'No se encontró ninguna malla en el archivo.', errGltf: 'Error de glTF: ',
+    objects: 'Objetos y escena', newPrim: 'Primitivas y bocetos 2D', active: 'Transformación y tamaño', grid: 'Entorno y cuadrícula', view: 'Vista y materiales',
+    donate: 'Apoya el proyecto', legalBtn: 'Info y Términos', legalTitle: 'Info, Términos y Privacidad',
+    lg1h: 'Privacidad y datos', lg1: `EasyBlend funciona íntegramente en tu navegador (lado cliente). La aplicación no recopila, rastrea ni envía a servidores externos datos personales, cookies de perfilado ni modelos 3D. Las preferencias (p. ej. el idioma) solo se guardan en tu navegador. El enlace opcional de donación de Ko-fi abre un sitio de terceros con sus propias políticas.`,
+    lg2h: 'Exención de responsabilidad (AS IS)', lg2: `La aplicación se ofrece gratuitamente «tal cual», sin garantías de ningún tipo. El desarrollador no se responsabiliza de cierres del navegador, incompatibilidades ni pérdida de datos no guardados. Exporta tu trabajo con frecuencia.`,
+    lg3h: 'Propiedad intelectual', lg3: `Todos los modelos 3D que crees, edites y exportes con EasyBlend son 100 % tuyos, para cualquier uso personal o comercial.`,
+    tBuild: 'Crear', tDeform: 'Deformar', tDetail: 'Detalle', tMask: 'Máscara',
+    drawSharp: 'Dibujo nítido', clayB: 'Arcilla', clayStrips: 'Tiras de arcilla', layer: 'Capa', blob: 'Blob', crease: 'Pliegue', scrape: 'Raspar', fill: 'Rellenar', deepen: 'Ahondar', snake: 'Gancho', nudge: 'Empujar', twist: 'Rotar',
+    sketch: 'Boceto 2D', skRect: 'Rectángulo', skCircle: 'Círculo', skPoly: 'Polígono', skThick: 'Grosor (mm)', skExtrude: 'Extruir nuevo cuerpo', skCut: 'Cortar (vaciado)',
+    skHint: 'Haz clic en una cara (o en la cuadrícula) y dibuja. Polígono: clic en los puntos, Intro o doble clic para cerrar. El corte vacía una cavidad en la malla activa.' },
   fr: { fMove: 'Position (mm)', fRotate: 'Rotation (°)', fScale: 'Taille (mm)', mode: 'Déplacer / Transformer', undo: 'Annuler', redo: 'Rétablir', radius: 'Rayon (mm)', strength: 'Intensité', sym: 'Symétrie X',
     draw: 'Dessiner', smooth: 'Lisser', grab: 'Déplacer', flatten: 'Aplatir', inflate: 'Gonfler', pinch: 'Pincer', mask: 'Masque',
     objects: 'Objets', import: 'Importer…', reset: 'Réinitialiser la scène', vis: 'Afficher / masquer', del: 'Supprimer',
@@ -82,7 +110,16 @@ const I18N = {
     view: 'Vue', clay: 'Argile mate', metal: 'Métallique (MatCap)', wax: 'Cire rouge (MatCap)', wire: 'Fil de fer', focus: "Cadrer l'objet",
     frameAll: 'Tout cadrer', resetCam: 'Réinitialiser la caméra', shot: 'Capture (PNG)', export: 'Exporter (maillages visibles, mm)',
     shortcuts: 'Raccourcis clavier', close: 'Fermer', keyMode: 'Mode Sculpture / Transformation', keyInvert: 'Inverser le pinceau (maintenir)', keyDel: "Supprimer l'objet",
-    errFormat: 'Format non pris en charge : utilisez .glb, .gltf ou .stl', errEmpty: 'Aucun maillage trouvé dans le fichier.', errGltf: 'Erreur glTF : ' }
+    errFormat: 'Format non pris en charge : utilisez .glb, .gltf ou .stl', errEmpty: 'Aucun maillage trouvé dans le fichier.', errGltf: 'Erreur glTF : ',
+    objects: 'Objets et scène', newPrim: 'Primitives et croquis 2D', active: 'Transformation et dimensions', grid: 'Environnement et grille', view: 'Vue et matériaux',
+    donate: 'Soutenir le projet', legalBtn: 'Infos et Conditions', legalTitle: 'Infos, Conditions et Confidentialité',
+    lg1h: 'Confidentialité et données', lg1: `EasyBlend fonctionne entièrement dans votre navigateur (côté client). L'application ne collecte, ne suit ni n'envoie à des serveurs externes de données personnelles, de cookies de profilage ou de modèles 3D. Les préférences (p. ex. la langue) restent uniquement dans votre navigateur. Le lien de don Ko-fi, facultatif, ouvre un site tiers avec ses propres politiques.`,
+    lg2h: 'Exclusion de responsabilité (AS IS)', lg2: `L'application est fournie gratuitement « en l'état », sans garantie d'aucune sorte. Le développeur n'est pas responsable des plantages du navigateur, des incompatibilités ni de la perte de données non enregistrées. Exportez régulièrement votre travail.`,
+    lg3h: 'Propriété intellectuelle', lg3: `Tous les modèles 3D que vous créez, modifiez et exportez avec EasyBlend vous appartiennent à 100 %, pour tout usage personnel ou commercial.`,
+    tBuild: 'Créer', tDeform: 'Déformer', tDetail: 'Détail', tMask: 'Masque',
+    drawSharp: 'Dessin net', clayB: 'Argile', clayStrips: `Bandes d'argile`, layer: 'Couche', blob: 'Blob', crease: 'Pli', scrape: 'Racler', fill: 'Remplir', deepen: 'Creuser', snake: 'Crochet', nudge: 'Pousser', twist: 'Pivoter',
+    sketch: 'Croquis 2D', skRect: 'Rectangle', skCircle: 'Cercle', skPoly: 'Polygone', skThick: 'Épaisseur (mm)', skExtrude: 'Extruder un nouveau corps', skCut: 'Couper (évidement)',
+    skHint: 'Cliquez sur une face (ou la grille) et dessinez. Polygone : cliquez les points, Entrée ou double-clic pour fermer. La coupe creuse une cavité dans le maillage actif.' }
 };
 let lang = 'en';
 const t = k => (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k;
@@ -178,7 +215,7 @@ function placeGeos(gs) {
 }
 
 // items: [{geo, name}], dims: [x,y,z] mm opzionale (scala la prima geometria alle dimensioni reali)
-function spawn(items, dims) {
+function spawn(items, dims, keep) {   // keep=true: non riposizionare sulla griglia (usato dall'estrusione degli schizzi)
   const gs = items.map(o => prep(o.geo));
   if (dims) {
     gs[0].computeBoundingBox();
@@ -186,7 +223,7 @@ function spawn(items, dims) {
     gs[0].scale(dims[0] / (s.x || 1), dims[1] / (s.y || 1), dims[2] / (s.z || 1));
     gs[0].computeVertexNormals();
   }
-  placeGeos(gs);
+  if (!keep) placeGeos(gs);
   gs.forEach((geo, k) => {
     const n = geo.attributes.position.count, col = new THREE.BufferAttribute(new Float32Array(n * 3).fill(1), 3);
     col.setUsage(THREE.DynamicDrawUsage);                          // colori = maschera
@@ -357,7 +394,7 @@ function makeCenters(p) {                                   // con simmetria: pu
 }
 /* Vertici nel raggio con falloff morbido (1 - d²/r²)². Ogni vertice va al centro che lo influenza di più
    (mai toccato due volte vicino al piano di simmetria). La maschera riduce il peso (useMask=false per il pennello Mask). */
-function gather(centers, useMask = true) {
+function gather(centers, useMask = true, exp = 2) {   // exp: durezza del falloff (più alto = bordo più netto)
   const P = active.geo.attributes.position.array, M = active.mask, r2 = state.radius ** 2, set = { idx: [], w: [], c: [] };
   for (let i = 0, n = P.length / 3; i < n; i++) {
     const x = P[3 * i], y = P[3 * i + 1], z = P[3 * i + 2];
@@ -365,7 +402,7 @@ function gather(centers, useMask = true) {
     for (let k = 0; k < centers.length; k++) {
       const dx = x - centers[k].x, dy = y - centers[k].y, dz = z - centers[k].z;
       const t = 1 - (dx * dx + dy * dy + dz * dz) / r2;
-      if (t > 0 && t * t > best) { best = t * t; bk = k; }
+      if (t > 0 && t ** exp > best) { best = t ** exp; bk = k; }
     }
     const w = useMask ? best * (1 - M[i]) : best;
     if (bk >= 0 && w > 0) { set.idx.push(i); set.w.push(w); set.c.push(bk); }
@@ -394,21 +431,60 @@ function neighbors(rec) {                                   // adiacenze costrui
   return rec.nb = sets.map(s => Int32Array.from(s));
 }
 
-/* Ogni pennello: (set, ctx) con ctx = { area, centers, invert (Alt) }; modifica i buffer della mesh attiva */
+/* Falloff per pennello (default 2) e pennelli "a trascinamento" (set di vertici legato al movimento del mouse) */
+const BRUSH_EXP = { drawSharp: 4, clayStrips: 1, crease: 3, deepen: 3, scrape: 1.5, fill: 1.5 };
+const DRAG_TOOLS = ['grab', 'snake'];
+const pos = () => active.geo.attributes.position.array, nrm = () => active.geo.attributes.normal.array;
+const amt = () => state.radius * CONFIG.drawFactor * state.strength;            // spostamento base per pennellata
+const addTo = (P, i, v, f) => { P[3 * i] += v.x * f; P[3 * i + 1] += v.y * f; P[3 * i + 2] += v.z * f; };
+
+function push(set, { area }, k) {                           // lungo la normale media: Draw, Draw Sharp, Deepen
+  const P = pos(); set.idx.forEach((i, j) => addTo(P, i, area.N[set.c[j]], amt() * k * set.w[j]));
+}
+function infl(set, { invert }, k) {                         // lungo la normale di OGNI vertice: Inflate/Deflate, Blob
+  const P = pos(), N = nrm(), a = amt() * k * (invert ? -1 : 1);
+  set.idx.forEach((i, j) => { const f = a * set.w[j]; P[3 * i] += N[3 * i] * f; P[3 * i + 1] += N[3 * i + 1] * f; P[3 * i + 2] += N[3 * i + 2] * f; });
+}
+function sweep(set, { area }, mode, h = 0) {                // verso il piano medio (+h): both=Flatten · above=Scrape · below=Fill · lift=Clay (solo ciò che sta sotto quota h)
+  const P = pos();
+  set.idx.forEach((i, j) => {
+    const k = set.c[j], n = area.N[k], p = area.A[k];
+    const d = (P[3 * i] - p.x) * n.x + (P[3 * i + 1] - p.y) * n.y + (P[3 * i + 2] - p.z) * n.z - h;
+    if ((mode === 'above' && d < 0) || (mode === 'below' && d > 0) || (mode === 'lift' && d > 0)) return;
+    addTo(P, i, n, -d * set.w[j] * state.strength * CONFIG.flattenFactor);
+  });
+}
+function pull(set, { area, centers, invert }, tang, deep) {   // verso il centro (piano tangente) + solco: Pinch, Crease, Blob
+  const P = pos(), sg = invert ? -1 : 1;
+  set.idx.forEach((i, j) => {
+    const k = set.c[j], n = area.N[k], c = centers[k], w = set.w[j];
+    const dx = c.x - P[3 * i], dy = c.y - P[3 * i + 1], dz = c.z - P[3 * i + 2], dn = dx * n.x + dy * n.y + dz * n.z;
+    const t = state.strength * CONFIG.pinchFactor * w * sg * tang, cr = state.radius * 0.03 * state.strength * w * sg * deep;
+    P[3 * i] += (dx - n.x * dn) * t - n.x * cr; P[3 * i + 1] += (dy - n.y * dn) * t - n.y * cr; P[3 * i + 2] += (dz - n.z * dn) * t - n.z * cr;
+  });
+}
+
+/* Ogni pennello: (set, ctx) con ctx = { area, centers, invert (Alt), delta (spostamento del punto colpito), twist (rad) } */
 const BRUSHES = {
-  draw(set, { area, invert }) {                             // Draw/Clay: lungo la normale media
-    const P = active.geo.attributes.position.array, a = state.radius * CONFIG.drawFactor * state.strength * (invert ? -1 : 1);
-    set.idx.forEach((i, j) => { const n = area.N[set.c[j]], f = a * set.w[j];
-      P[3 * i] += n.x * f; P[3 * i + 1] += n.y * f; P[3 * i + 2] += n.z * f; });
+  draw:       (s, c) => push(s, c, c.invert ? -1 : 1),
+  drawSharp:  (s, c) => push(s, c, c.invert ? -1.5 : 1.5),            // falloff stretto → creste/solchi netti
+  deepen:     (s, c) => push(s, c, c.invert ? 1.5 : -1.5),
+  clayB:      (s, c) => c.invert ? push(s, c, -1) : sweep(s, c, 'lift', state.radius * 0.05 * state.strength),       // deposita strati piatti
+  clayStrips: (s, c) => c.invert ? push(s, c, -1) : sweep(s, c, 'lift', state.radius * 0.08 * state.strength),
+  layer(set, { invert }) {                                  // spessore uniforme rispetto alla superficie ORIGINALE della pennellata (tetto = h)
+    const P = pos(), N = nrm(), h = state.radius * 0.12 * state.strength * (invert ? -1 : 1);
+    set.idx.forEach((i, j) => { const o = stroke.saved.get(i), f = set.w[j] * 0.5;
+      for (let a = 0; a < 3; a++) P[3 * i + a] += (o[a] + N[3 * i + a] * h - P[3 * i + a]) * f; });
   },
-  inflate(set, { invert }) {                                // Inflate: lungo la normale di OGNI vertice
-    const P = active.geo.attributes.position.array, N = active.geo.attributes.normal.array;
-    const a = state.radius * CONFIG.drawFactor * state.strength * (invert ? -1 : 1);
-    set.idx.forEach((i, j) => { const f = a * set.w[j];
-      P[3 * i] += N[3 * i] * f; P[3 * i + 1] += N[3 * i + 1] * f; P[3 * i + 2] += N[3 * i + 2] * f; });
-  },
-  smooth(set) {                                             // Smooth: verso la media dei vicini (prima leggo tutto, poi scrivo)
-    const P = active.geo.attributes.position.array, nb = neighbors(active), tmp = new Float32Array(set.idx.length * 3);
+  inflate: (s, c) => infl(s, c, 1),
+  blob:    (s, c) => { infl(s, c, 1.6); pull(s, c, 0.35, 0); },    // gonfia + raccoglie verso il centro = protuberanza sferica
+  crease:  (s, c) => pull(s, c, 0.5, 2.5),
+  pinch:   (s, c) => pull(s, c, 1, 1),
+  flatten: (s, c) => sweep(s, c, 'both'),
+  scrape:  (s, c) => sweep(s, c, 'above'),                   // toglie solo ciò che sta sopra il piano → spigoli vivi
+  fill:    (s, c) => sweep(s, c, 'below'),                   // riempie solo gli avvallamenti
+  smooth(set) {                                             // verso la media dei vicini (prima leggo tutto, poi scrivo)
+    const P = pos(), nb = neighbors(active), tmp = new Float32Array(set.idx.length * 3);
     set.idx.forEach((i, j) => {
       let x = 0, y = 0, z = 0; const l = nb[i];
       for (let m = 0; m < l.length; m++) { x += P[3 * l[m]]; y += P[3 * l[m] + 1]; z += P[3 * l[m] + 2]; }
@@ -417,56 +493,64 @@ const BRUSHES = {
     set.idx.forEach((i, j) => { const f = set.w[j] * state.strength * CONFIG.smoothFactor;
       for (let a = 0; a < 3; a++) P[3 * i + a] += (tmp[3 * j + a] - P[3 * i + a]) * f; });
   },
-  flatten(set, { area }) {                                  // Flatten: verso il piano medio
-    const P = active.geo.attributes.position.array;
+  nudge(set, { area, delta }) {                             // sposta la superficie PARALLELAMENTE al pennello (componente tangente del movimento)
+    if (!delta) return;
+    const P = pos();
     set.idx.forEach((i, j) => {
-      const k = set.c[j], n = area.N[k], p = area.A[k];
-      const d = (P[3 * i] - p.x) * n.x + (P[3 * i + 1] - p.y) * n.y + (P[3 * i + 2] - p.z) * n.z;
-      const f = d * set.w[j] * state.strength * CONFIG.flattenFactor;
-      P[3 * i] -= n.x * f; P[3 * i + 1] -= n.y * f; P[3 * i + 2] -= n.z * f;
+      const k = set.c[j], n = area.N[k], dx = k ? -delta.x : delta.x, dn = dx * n.x + delta.y * n.y + delta.z * n.z, f = set.w[j] * state.strength * 1.5;
+      P[3 * i] += (dx - n.x * dn) * f; P[3 * i + 1] += (delta.y - n.y * dn) * f; P[3 * i + 2] += (delta.z - n.z * dn) * f;
     });
   },
-  pinch(set, { area, centers, invert }) {                   // Pinch/Crease: tira verso il centro (sul piano tangente) + leggero solco
-    const P = active.geo.attributes.position.array, sg = invert ? -1 : 1;
+  twist(set, { area, centers, twist }) {                    // ruota i vertici attorno all'asse (normale) passante per il centro del pennello (Rodrigues)
+    if (!twist) return;
+    const P = pos();
     set.idx.forEach((i, j) => {
-      const k = set.c[j], n = area.N[k], c = centers[k], w = set.w[j];
-      const dx = c.x - P[3 * i], dy = c.y - P[3 * i + 1], dz = c.z - P[3 * i + 2], dn = dx * n.x + dy * n.y + dz * n.z;
-      const t = state.strength * CONFIG.pinchFactor * w * sg, cr = state.radius * 0.03 * state.strength * w * sg;
-      P[3 * i] += (dx - n.x * dn) * t - n.x * cr;
-      P[3 * i + 1] += (dy - n.y * dn) * t - n.y * cr;
-      P[3 * i + 2] += (dz - n.z * dn) * t - n.z * cr;
+      const k = set.c[j], n = area.N[k], c = centers[k], a = twist * set.w[j] * (k ? -1 : 1), cs = Math.cos(a), sn = Math.sin(a);
+      const vx = P[3 * i] - c.x, vy = P[3 * i + 1] - c.y, vz = P[3 * i + 2] - c.z, d = vx * n.x + vy * n.y + vz * n.z;
+      P[3 * i] = c.x + vx * cs + (n.y * vz - n.z * vy) * sn + n.x * d * (1 - cs);
+      P[3 * i + 1] = c.y + vy * cs + (n.z * vx - n.x * vz) * sn + n.y * d * (1 - cs);
+      P[3 * i + 2] = c.z + vz * cs + (n.x * vy - n.y * vx) * sn + n.z * d * (1 - cs);
     });
   },
-  mask(set, { invert }) {                                   // Mask: accumula (Alt = cancella) e scurisce il colore vertice
+  mask(set, { invert }) {                                   // accumula (Alt = cancella) e scurisce il colore vertice
     const a = state.strength * CONFIG.maskFactor * (invert ? -1 : 1);
     set.idx.forEach((i, j) => { active.mask[i] = Math.min(1, Math.max(0, active.mask[i] + a * set.w[j])); setColor(active, i); });
     active.geo.attributes.color.needsUpdate = true;
   }
 };
 
-/* Grab: insieme di vertici "congelato" all'inizio del trascinamento; ogni vertice segue il mouse × il suo peso */
+/* Grab e Snake Hook: seguono il mouse su un piano parallelo allo schermo.
+   Grab = insieme di vertici "congelato" all'inizio (volume controllato). Snake Hook = il pennello si sposta col mouse e trascina i vertici
+   che incontra ad ogni frame → la geometria si allunga in corna/code. */
 let grab = null;
 const grabPlane = new THREE.Plane(), grabPoint = new THREE.Vector3();
-function startGrab(hitPoint) {
-  const set = gather(makeCenters(hitPoint)), P = active.geo.attributes.position.array, orig = new Float32Array(set.idx.length * 3);
+function startDrag(hitPoint, tool) {
+  const set = tool === 'grab' ? gather(makeCenters(hitPoint)) : { idx: [], w: [], c: [] }, P = pos(), orig = new Float32Array(set.idx.length * 3);
   set.idx.forEach((i, j) => orig.set([P[3 * i], P[3 * i + 1], P[3 * i + 2]], 3 * j));
   touch(set);
-  grabPlane.setFromNormalAndCoplanarPoint(camera.getWorldDirection(new THREE.Vector3()), hitPoint);  // piano parallelo allo schermo
-  grab = { set, orig, start: hitPoint.clone() };
+  grabPlane.setFromNormalAndCoplanarPoint(camera.getWorldDirection(new THREE.Vector3()), hitPoint);
+  grab = { tool, set, orig, start: hitPoint.clone(), last: hitPoint.clone() };
 }
-function updateGrab() {
+function updateDrag() {
   if (!raycaster.ray.intersectPlane(grabPlane, grabPoint)) return;
-  const d = grabPoint.sub(grab.start), P = active.geo.attributes.position.array, { set, orig } = grab;
+  const P = pos();
+  if (grab.tool === 'snake') {
+    const d = grabPoint.clone().sub(grab.last), set = gather(makeCenters(grab.last));
+    touch(set);
+    set.idx.forEach((i, j) => { const sx = set.c[j] === 1 ? -1 : 1, w = set.w[j]; P[3 * i] += d.x * sx * w; P[3 * i + 1] += d.y * w; P[3 * i + 2] += d.z * w; });
+    grab.last.copy(grabPoint); return;
+  }
+  const d = grabPoint.clone().sub(grab.start), { set, orig } = grab;
   set.idx.forEach((i, j) => {
     const w = set.w[j], sx = set.c[j] === 1 ? -1 : 1;       // lato specchiato: delta X invertito
     P[3 * i] = orig[3 * j] + d.x * sx * w; P[3 * i + 1] = orig[3 * j + 1] + d.y * w; P[3 * i + 2] = orig[3 * j + 2] + d.z * w;
   });
 }
-function sculptAt(point, invert) {
-  const centers = makeCenters(point), set = gather(centers, state.tool !== 'mask');
+function sculptAt(point, invert, extra) {
+  const tool = stroke.tool, centers = makeCenters(point), set = gather(centers, tool !== 'mask', BRUSH_EXP[tool] || 2);
   if (!set.idx.length) return;
   touch(set);
-  BRUSHES[state.tool](set, { area: areaData(set, centers.length), centers, invert });
+  BRUSHES[tool](set, { area: areaData(set, centers.length), centers, invert, ...extra });
 }
 
 /* ---------- 6. INPUT DI SCULTURA ---------- */
@@ -483,22 +567,24 @@ function setPointer(e) {
 canvas.addEventListener('pointerdown', e => {
   downXY = [e.clientX, e.clientY];
   if (document.activeElement instanceof HTMLInputElement) document.activeElement.blur();   // così i campi si aggiornano durante il drag
+  if (state.mode === 'sketch') return sketchDown(e);
   if (e.button !== 0 || state.mode !== 'sculpt' || !active || !active.mesh.visible) return;
   setPointer(e);
   const hit = raycaster.intersectObject(active.mesh)[0];
   if (!hit) return;
   controls.enabled = false; canvas.setPointerCapture(e.pointerId);
-  stroke = { invert: e.altKey, rec: active, saved: new Map() };
-  if (state.tool === 'grab') startGrab(hit.point);
+  const tool = e.shiftKey && state.tool !== 'mask' ? 'smooth' : state.tool;   // Shift = Smooth temporaneo con qualsiasi pennello
+  stroke = { invert: e.altKey, rec: active, saved: new Map(), tool, px: pointer.x, last: null };
+  if (DRAG_TOOLS.includes(tool)) startDrag(hit.point, tool);
   dirty = true;
 });
-canvas.addEventListener('pointermove', e => { setPointer(e); if (stroke) stroke.invert = e.altKey; dirty = true; });
+canvas.addEventListener('pointermove', e => { if (state.mode === 'sketch') sketchMove(e); setPointer(e); if (stroke) stroke.invert = e.altKey; dirty = true; });
 function endStroke() {
   if (!stroke) return;
   pushHistory(); markDirty(); stroke = null; grab = null; controls.enabled = true; refreshSel(); syncDims();
 }
 canvas.addEventListener('pointerup', e => {
-  endStroke();
+  endStroke(); if (state.mode === 'sketch') sketchUp();
   if (state.mode === 'transform' && e.button === 0 && downXY && !transform.axis && Math.hypot(e.clientX - downXY[0], e.clientY - downXY[1]) < 4) {
     setPointer(e);                                          // clic senza trascinamento (e non sul gizmo) → selezione
     const hit = raycaster.intersectObjects(recs.filter(r => r.mesh.visible).map(r => r.mesh))[0];
@@ -522,10 +608,14 @@ function processInput() {                                   // una sola elaboraz
   if (!dirty) return;
   dirty = false;
   if (state.mode !== 'sculpt' || !active || !active.mesh.visible) { cursor.visible = false; return; }
-  if (stroke && state.tool === 'grab') { updateGrab(); commit(stroke.rec); return; }
+  if (stroke && DRAG_TOOLS.includes(stroke.tool)) { updateDrag(); commit(stroke.rec); return; }
   const hit = raycaster.intersectObject(active.mesh)[0];
   updateCursor(hit);
-  if (stroke && hit) { sculptAt(hit.point, stroke.invert); commit(active); }
+  if (stroke && hit) {
+    const delta = stroke.last ? hit.point.clone().sub(stroke.last) : null;               // per Nudge
+    sculptAt(hit.point, stroke.invert, { delta, twist: (pointer.x - stroke.px) * 4 * state.strength });   // twist: movimento orizzontale del mouse
+    stroke.last = hit.point.clone(); stroke.px = pointer.x; commit(active);
+  }
 }
 
 /* ---------- 7. TRASFORMAZIONE (gizmo) E MODALITÀ ---------- */
@@ -568,7 +658,10 @@ function applySnap() {                                      // snap alla griglia
 }
 function setMode(m) {
   state.mode = m;
-  if (active) m === 'sculpt' ? bake(active) : recenter(active);   // sculpt: identità · trasforma: pivot al centro
+  if (m !== 'sketch') sketchReset();
+  controls.mouseButtons = m === 'sketch' ? { LEFT: null, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE }   // schizzo: sinistro = disegna, destro = orbita
+                                         : { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
+  if (active) m === 'transform' ? recenter(active) : bake(active);   // sculpt: identità · trasforma: pivot al centro
   document.body.dataset.mode = m; $('btn-mode').classList.toggle('active', m === 'transform');
   cursor.visible = false; attachGizmo(); syncDims();
 }
@@ -577,6 +670,89 @@ function setGizmo(g) {
   updateFieldMeta();
   if (state.mode !== 'transform') setMode('transform'); else attachGizmo();
   syncDims();
+}
+
+/* ---------- 7b. SCHIZZO 2D → ESTRUSIONE / TAGLIO (ispirato a Fusion 360) ----------
+   Piano di lavoro = faccia colpita al primo clic, altrimenti il piano griglia. Forme: rettangolo e cerchio (trascina),
+   poligono (clic sui punti; Invio o doppio clic chiude). Estrudi = nuovo corpo. Taglio = scavo "a tasca" nella mesh attiva. */
+const sk = { shape: 'rect', plane: null, o: new THREE.Vector3(), u: new THREE.Vector3(), v: new THREE.Vector3(), n: new THREE.Vector3(), pts: [], drag: null, done: false };
+const skLine = new THREE.LineLoop(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: CONFIG.accent, depthTest: false }));
+skLine.renderOrder = 11; skLine.frustumCulled = false; skLine.visible = false; scene.add(skLine);
+const to3 = p => sk.o.clone().addScaledVector(sk.u, p[0]).addScaledVector(sk.v, p[1]);    // coordinate 2D del piano → mondo
+function skDraw(pts) {                                      // anteprima: rialloca solo la piccola geometria della linea
+  skLine.geometry.dispose(); skLine.geometry = new THREE.BufferGeometry().setFromPoints(pts.map(to3)); skLine.visible = pts.length > 1; wake();
+}
+function skReady() { $('sk-extrude').disabled = !sk.done; $('sk-cut').disabled = !(sk.done && active); }
+function sketchReset() {
+  sk.pts = []; sk.plane = null; sk.drag = null; sk.done = false; skLine.visible = false;
+  document.querySelectorAll('[data-sk]').forEach(b => b.classList.remove('active')); skReady();
+}
+function skPoint(e) {                                       // mouse → coordinate 2D sul piano (lo definisce al primo punto)
+  setPointer(e);
+  if (!sk.plane) {
+    const hit = raycaster.intersectObjects(recs.filter(r => r.mesh.visible).map(r => r.mesh))[0];
+    const n = hit ? hit.face.normal.clone().transformDirection(hit.object.matrixWorld) : new THREE.Vector3(0, 1, 0);
+    sk.o.copy(hit ? hit.point : new THREE.Vector3()); sk.n.copy(n);
+    sk.u.crossVectors(n, Math.abs(n.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0)).normalize();
+    sk.v.crossVectors(n, sk.u);                             // (u, v, n) destrorso
+    sk.plane = new THREE.Plane().setFromNormalAndCoplanarPoint(n, sk.o);
+  }
+  const p = raycaster.ray.intersectPlane(sk.plane, new THREE.Vector3());
+  return p ? (p.sub(sk.o), [p.dot(sk.u), p.dot(sk.v)]) : null;
+}
+function skShape(a, b) {
+  if (sk.shape === 'rect') return [[a[0], a[1]], [b[0], a[1]], [b[0], b[1]], [a[0], b[1]]];
+  const r = Math.hypot(b[0] - a[0], b[1] - a[1]);
+  return Array.from({ length: 48 }, (_, i) => [a[0] + r * Math.cos(i / 48 * 2 * Math.PI), a[1] + r * Math.sin(i / 48 * 2 * Math.PI)]);
+}
+function skClose() { if (sk.pts.length >= 3) { sk.done = true; skDraw(sk.pts); skReady(); } }
+function sketchDown(e) {
+  if (e.button !== 0) return;
+  if (sk.shape === 'poly' && e.detail === 2) return skClose();
+  const p = skPoint(e);
+  if (!p) return;
+  if (sk.shape !== 'poly') { sk.drag = p; sk.done = false; return; }
+  if (sk.done) { sk.pts = []; sk.done = false; skReady(); }
+  sk.pts.push(p); skDraw(sk.pts);
+}
+function sketchMove(e) {
+  if (sk.shape === 'poly') { if (sk.pts.length && !sk.done) { const p = skPoint(e); if (p) skDraw([...sk.pts, p]); } return; }
+  if (!sk.drag) return;
+  const p = skPoint(e);
+  if (p) { sk.pts = skShape(sk.drag, p); skDraw(sk.pts); }
+}
+function sketchUp() { if (sk.drag) { sk.drag = null; sk.done = sk.pts.length >= 3; skReady(); } }
+
+function skExtrude() {                                      // nuovo corpo: schizzo estruso di "spessore" mm lungo la normale del piano
+  if (!sk.done) return;
+  const depth = Math.max(0.1, +$('sk-depth').value || 10);
+  const g = new THREE.ExtrudeGeometry(new THREE.Shape(sk.pts.map(p => new THREE.Vector2(p[0], p[1]))), { depth, bevelEnabled: false, curveSegments: 32 });
+  g.applyMatrix4(new THREE.Matrix4().makeBasis(sk.u, sk.v, sk.n).setPosition(sk.o));   // piano locale (u, v, n) → mondo
+  spawn([{ geo: g, name: t('sketch') }], null, true);
+  setMode('sculpt');
+}
+function skCut() {                                          // scavo: i vertici frontali dentro il prisma (h ∈ [-spessore, 0]) vengono portati sul fondo
+  if (!sk.done || !active) return;
+  const depth = Math.max(0.1, +$('sk-depth').value || 10), P = pos(), N = nrm(), w = new THREE.Vector3(), idx = [], poly = sk.pts;
+  const inside = (x, y) => {                                // punto-in-poligono (ray casting)
+    let r = false;
+    for (let a = 0, b = poly.length - 1; a < poly.length; b = a++)
+      if ((poly[a][1] > y) !== (poly[b][1] > y) && x < (poly[b][0] - poly[a][0]) * (y - poly[a][1]) / (poly[b][1] - poly[a][1]) + poly[a][0]) r = !r;
+    return r;
+  };
+  for (let i = 0; i < P.length / 3; i++) {
+    w.set(P[3 * i], P[3 * i + 1], P[3 * i + 2]).sub(sk.o);
+    const h = w.dot(sk.n);
+    if (h > -depth && h < 1 && N[3 * i] * sk.n.x + N[3 * i + 1] * sk.n.y + N[3 * i + 2] * sk.n.z > 0 && inside(w.dot(sk.u), w.dot(sk.v))) idx.push(i);
+  }
+  if (!idx.length) return;
+  stroke = { saved: new Map(), rec: active }; touch({ idx });    // registra lo "prima" per l'undo
+  idx.forEach(i => {
+    w.set(P[3 * i], P[3 * i + 1], P[3 * i + 2]).sub(sk.o);
+    const q = sk.o.clone().addScaledVector(sk.u, w.dot(sk.u)).addScaledVector(sk.v, w.dot(sk.v)).addScaledVector(sk.n, -depth);
+    P[3 * i] = q.x; P[3 * i + 1] = q.y; P[3 * i + 2] = q.z;
+  });
+  pushHistory(); stroke = null; commit(active); markDirty(); setMode('sculpt');
 }
 
 /* ---------- 8. IMPORT E PRIMITIVE ---------- */
@@ -615,12 +791,38 @@ function makePrimitive(type) {
 }
 
 /* ---------- 9. INTERFACCIA E i18n ---------- */
-const toolBtns = document.querySelectorAll('[data-tool]');
-function setTool(tool) {
-  state.tool = tool; toolBtns.forEach(b => b.classList.toggle('active', b.dataset.tool === tool));
-  $('tool-label').textContent = t(tool);
+/* Toolbar a categorie (schede): data-driven, per aggiungere un pennello basta una riga qui + BRUSHES + la chiave i18n con lo stesso id */
+const TOOL_TABS = {
+  tBuild:  [['draw', '●'], ['drawSharp', '◆'], ['clayB', '▰'], ['clayStrips', '≡'], ['layer', '▤'], ['inflate', '◐'], ['blob', '◍']],
+  tDeform: [['grab', '✥'], ['snake', '∿'], ['nudge', '⇉'], ['twist', '↻']],
+  tDetail: [['smooth', '≈'], ['flatten', '▬'], ['scrape', '⌐'], ['fill', '▼'], ['deepen', '▽'], ['crease', '⌄'], ['pinch', '⋈']],
+  tMask:   [['mask', '◼']]
+};
+const tabsEl = $('tabs'), toolsEl = $('tools');
+Object.entries(TOOL_TABS).forEach(([tab, list]) => {
+  const tb = document.createElement('button'); tb.dataset.tab = tab; tb.dataset.i18n = tab; tabsEl.appendChild(tb);
+  const pane = document.createElement('div'); pane.className = 'pane'; pane.dataset.pane = tab;
+  list.forEach(([id, icon]) => {
+    const b = document.createElement('button'); b.dataset.tool = id; b.dataset.i18nTitle = id;   // tooltip = nome tradotto
+    b.innerHTML = `<span>${icon}</span><i data-i18n="${id}"></i>`; pane.appendChild(b);
+  });
+  toolsEl.appendChild(pane);
+});
+function showTab(tab) {
+  tabsEl.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  toolsEl.querySelectorAll('.pane').forEach(p => p.hidden = p.dataset.pane !== tab);
 }
-toolBtns.forEach(b => b.addEventListener('click', () => { setTool(b.dataset.tool); if (state.mode !== 'sculpt') setMode('sculpt'); }));
+function setTool(tool) {
+  state.tool = tool; $('tool-label').textContent = t(tool);
+  toolsEl.querySelectorAll('[data-tool]').forEach(b => b.classList.toggle('active', b.dataset.tool === tool));
+  showTab(Object.keys(TOOL_TABS).find(k => TOOL_TABS[k].some(([id]) => id === tool)));
+}
+tabsEl.addEventListener('click', e => { if (e.target.dataset.tab) showTab(e.target.dataset.tab); });
+toolsEl.addEventListener('click', e => {
+  const b = e.target.closest('[data-tool]');
+  if (b) { setTool(b.dataset.tool); if (state.mode !== 'sculpt') setMode('sculpt'); }
+});
+setTool(state.tool);                                        // evidenzia il pennello iniziale e mostra la sua scheda
 document.querySelectorAll('[data-gizmo]').forEach(b => b.addEventListener('click', () => setGizmo(b.dataset.gizmo)));
 
 function bindSlider(id, key, cfg) {
@@ -632,7 +834,7 @@ bindSlider('radius', 'radius', CONFIG.radius); bindSlider('strength', 'strength'
 
 /* --- i18n: ogni elemento con data-i18n / data-i18n-title viene tradotto senza ricaricare la pagina --- */
 const SHORTCUTS = [['Tab', 'keyMode'], ['D', 'draw'], ['S', 'smooth'], ['G', 'grab'], ['L', 'flatten'], ['I', 'inflate'], ['P', 'pinch'],
-  ['M', 'mask'], ['Alt', 'keyInvert'], ['X', 'sym'], ['W', 'move'], ['E', 'rotate'], ['R', 'scale'], ['F', 'focus'], ['Home', 'frameAll'],
+  ['M', 'mask'], ['C', 'clayB'], ['B', 'blob'], ['K', 'snake'], ['N', 'nudge'], ['Shift', 'smooth'], ['Alt', 'keyInvert'], ['X', 'sym'], ['W', 'move'], ['E', 'rotate'], ['R', 'scale'], ['F', 'focus'], ['Home', 'frameAll'],
   ['Del', 'keyDel'], ['Ctrl+Z', 'undo'], ['Ctrl+Y', 'redo'], ['?', 'shortcuts']];
 function buildHelp() {
   $('help-body').innerHTML = SHORTCUTS.map(([k, l]) => `<tr><td><kbd>${k}</kbd></td><td>${t(l)}</td></tr>`).join('');
@@ -642,7 +844,7 @@ function applyLang(l) {
   document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
   document.querySelectorAll('[data-i18n-title]').forEach(el => el.title = t(el.dataset.i18nTitle));
   $('tool-label').textContent = t(state.tool);
-  refreshList(); buildHelp(); updateFieldMeta();
+  refreshList(); buildHelp(); buildLegal(); updateFieldMeta();
   try { localStorage.setItem('lang', lang); } catch (e) { /* storage bloccato: la scelta vale solo per la sessione */ }
 }
 $('lang').addEventListener('change', e => applyLang(e.target.value));
@@ -678,7 +880,7 @@ $('grid-step').addEventListener('input', debounce(e => {
   state.gridStep = Math.max(1, +e.target.value || CONFIG.gridStep); buildGrid(); applySnap(); wake();
 }, 300));
 $('snap').addEventListener('change', e => { state.snap = e.target.checked; applySnap(); });
-$('btn-mode').addEventListener('click', () => setMode(state.mode === 'sculpt' ? 'transform' : 'sculpt'));
+$('btn-mode').addEventListener('click', () => setMode(state.mode === 'transform' ? 'sculpt' : 'transform'));
 $('btn-undo').addEventListener('click', undo); $('btn-redo').addEventListener('click', redo);
 $('btn-reset').addEventListener('click', resetScene);
 $('btn-focus').addEventListener('click', focusActive);
@@ -706,6 +908,18 @@ viewport.addEventListener('dragover', e => { e.preventDefault(); viewport.classL
 viewport.addEventListener('dragleave', () => viewport.classList.remove('drop'));
 viewport.addEventListener('drop', e => { e.preventDefault(); viewport.classList.remove('drop'); [...e.dataTransfer.files].forEach(importFile); });
 
+/* --- Donazioni (Ko-fi), modale legale e comandi dello schizzo --- */
+$('donate').href = CONFIG.kofiUrl;                          // rel="noopener noreferrer" e target="_blank" sono già nell'HTML
+function buildLegal() {                                     // 3 punti: privacy, disclaimer AS IS, proprietà intellettuale (testi in I18N)
+  $('legal-title').textContent = t('legalTitle');
+  $('legal-body').innerHTML = [1, 2, 3].map(n => `<h3>${t('lg' + n + 'h')}</h3><p>${t('lg' + n)}</p>`).join('');
+}
+$('btn-legal').addEventListener('click', () => $('legal').showModal());
+document.querySelectorAll('[data-sk]').forEach(b => b.addEventListener('click', () => {
+  setMode('sketch'); sketchReset(); sk.shape = b.dataset.sk; b.classList.add('active');
+}));
+$('sk-extrude').addEventListener('click', skExtrude); $('sk-cut').addEventListener('click', skCut);
+
 /* --- Screenshot PNG (senza gizmo/cursore): render e copia nello stesso tick, niente preserveDrawingBuffer --- */
 function screenshot() {
   const hide = [cursor, selBox, transform], was = hide.map(o => o.visible);
@@ -718,14 +932,16 @@ $('btn-shot').addEventListener('click', screenshot);
 
 /* --- Scorciatoie da tastiera --- */
 window.addEventListener('keydown', e => {
-  if ($('help').open || ['number', 'select-one'].includes(e.target.type)) return;
+  if ($('help').open || $('legal').open || ['number', 'select-one'].includes(e.target.type)) return;
   const k = e.key.toLowerCase();
   if ((e.ctrlKey || e.metaKey) && k === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
   if ((e.ctrlKey || e.metaKey) && k === 'y') { e.preventDefault(); redo(); return; }
   if (e.ctrlKey || e.metaKey || e.altKey) return;
-  const tools = { d: 'draw', s: 'smooth', g: 'grab', l: 'flatten', i: 'inflate', p: 'pinch', m: 'mask' };
+  const tools = { d: 'draw', s: 'smooth', g: 'grab', l: 'flatten', i: 'inflate', p: 'pinch', m: 'mask', c: 'clayB', b: 'blob', k: 'snake', n: 'nudge' };
   const gizmos = { w: 'translate', e: 'rotate', r: 'scale' };
-  if (e.key === 'Tab') { e.preventDefault(); setMode(state.mode === 'sculpt' ? 'transform' : 'sculpt'); }
+  if (e.key === 'Enter' && state.mode === 'sketch') skClose();
+  else if (e.key === 'Escape' && state.mode === 'sketch') setMode('sculpt');
+  else if (e.key === 'Tab') { e.preventDefault(); setMode(state.mode === 'transform' ? 'sculpt' : 'transform'); }
   else if (e.key === 'Delete' && active) removeMesh(active);
   else if (k === 'f') focusActive();
   else if (k === 'home') frameAll();
