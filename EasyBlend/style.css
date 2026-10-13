@@ -90,7 +90,7 @@ kbd { background: #1f1f1f; border: 1px solid #444; border-radius: 3px; padding: 
 /* ===== v4: campi X/Y/Z contestuali ===== */
 [hidden] { display: none !important; }                       /* .check usa display:flex e annullerebbe l'attributo hidden */
 .field-title { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
-.xyz label:nth-child(1) { color: #e5645f; }                  /* come le frecce del gizmo: X rosso, Y blu (profondità), Z verde (alto) */
-.xyz label:nth-child(2) { color: #5b9be5; }
-.xyz label:nth-child(3) { color: #7cc95b; }
+.xyz label:nth-child(1) { color: #e5645f; }                  /* come Blender e il gizmo: X rosso, Y verde (profondità), Z blu (alto) */
+.xyz label:nth-child(2) { color: #7cc95b; }
+.xyz label:nth-child(3) { color: #5b9be5; }
 .xyz input:disabled { opacity: .4; }
