@@ -545,6 +545,17 @@ transform.addEventListener('objectChange', () => {
 });
 scene.add(transform);
 
+// Colori del gizmo come in Blender: Z (alto = asse Y di Three.js) blu, Y (profondità = asse Z di Three.js) verde.
+// TransformControls li disegna con i colori di Three.js, quindi scambio verde ↔ blu nei suoi materiali
+// (frecce, anelli di rotazione, maniglie di scala). Ogni materiale è condiviso fra più maniglie: il Set evita doppi scambi.
+const swapped = new Set();
+transform.traverse(o => [].concat(o.material || []).forEach(m => {
+  const c = m.color;
+  if (!c || swapped.has(m)) return;
+  if (c.g > 0.9 && c.r < 0.1 && c.b < 0.1) { c.setRGB(0, 0, 1); swapped.add(m); }       // verde → blu
+  else if (c.b > 0.9 && c.r < 0.1 && c.g < 0.1) { c.setRGB(0, 1, 0); swapped.add(m); } // blu → verde
+}));
+
 function attachGizmo() {
   if (state.mode === 'transform' && active && active.mesh.visible) { transform.attach(active.mesh); transform.setMode(state.gizmo); }
   else transform.detach();
