@@ -94,3 +94,29 @@ kbd { background: #1f1f1f; border: 1px solid #444; border-radius: 3px; padding: 
 .xyz label:nth-child(2) { color: #7cc95b; }
 .xyz label:nth-child(3) { color: #5b9be5; }
 .xyz input:disabled { opacity: .4; }
+
+/* ===== v5: toolbar a schede, accordion del pannello, donazioni, modale legale ===== */
+#app { grid-template-columns: 96px 1fr 270px; }
+#tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-bottom: 6px; }
+#tabs button { padding: 4px 2px; font-size: 10px; }
+.pane { display: flex; flex-direction: column; gap: 6px; }
+#toolbar button i { font-style: normal; text-align: center; line-height: 1.1; }
+.donate { background: var(--accent); color: #fff; text-decoration: none; padding: 6px 10px; border-radius: 4px; font-weight: 600; white-space: nowrap; }
+.donate:hover { filter: brightness(1.12); }
+.donate::before { content: "♥ "; }
+
+details.acc { padding: 0; border-bottom: 1px solid #1d1d1d; box-shadow: 0 1px 0 #3b3b3b; }
+details.acc:last-of-type { border-bottom: 0; box-shadow: none; }
+details.acc > summary { cursor: pointer; padding: 12px 0; list-style: none; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); user-select: none; }
+details.acc > summary::-webkit-details-marker { display: none; }
+details.acc > summary::before { content: "▾ "; }
+details.acc:not([open]) > summary::before { content: "▸ "; }
+details.acc > :not(summary) { margin-bottom: 8px; }
+details.acc > :last-child { margin-bottom: 14px; }
+.sub { margin: 6px 0 0; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.note { margin: 0; font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+#legal { max-width: 480px; }
+#legal h3 { margin: 12px 0 4px; font-size: 13px; color: var(--accent); }
+#legal p { margin: 0; line-height: 1.5; color: #cfcfcf; }
+#legal form { margin-top: 16px; }
