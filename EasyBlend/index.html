@@ -30,34 +30,26 @@
         <option value="en">English</option><option value="it">Italiano</option>
         <option value="es">Español</option><option value="fr">Français</option>
       </select>
+      <button id="btn-legal" data-i18n="legalBtn"></button>
+      <a id="donate" class="donate" href="#" target="_blank" rel="noopener noreferrer" data-i18n="donate"></a>
       <button id="btn-help" data-i18n-title="shortcuts">?</button>
     </header>
 
     <!-- BARRA SINISTRA: pennelli (data-tool = chiave in BRUSHES e nel dizionario i18n) -->
-    <nav id="toolbar">
-      <button data-tool="draw" class="active"><span>●</span><i data-i18n="draw"></i></button>
-      <button data-tool="smooth"><span>≈</span><i data-i18n="smooth"></i></button>
-      <button data-tool="grab"><span>✥</span><i data-i18n="grab"></i></button>
-      <button data-tool="flatten"><span>▬</span><i data-i18n="flatten"></i></button>
-      <button data-tool="inflate"><span>◐</span><i data-i18n="inflate"></i></button>
-      <button data-tool="pinch"><span>⋈</span><i data-i18n="pinch"></i></button>
-      <button data-tool="mask"><span>◼</span><i data-i18n="mask"></i></button>
-    </nav>
+    <nav id="toolbar"><div id="tabs"></div><div id="tools"></div></nav>
 
     <!-- VIEWPORT 3D (drag-and-drop di .glb .gltf .stl) -->
     <main id="viewport"></main>
 
     <!-- PANNELLO DESTRO: ogni <section> è un gruppo separato da un divisore (vedi style.css) -->
     <aside id="panel">
-      <section>
-        <h2 data-i18n="objects"></h2>
+      <details class="acc" open><summary data-i18n="objects"></summary>
         <ul id="mesh-list"></ul>
         <div class="row"><button id="btn-import" data-i18n="import"></button><button id="btn-reset" data-i18n="reset"></button></div>
         <input type="file" id="file-input" accept=".glb,.gltf,.stl" multiple hidden>
-      </section>
+      </details>
 
-      <section class="dims">
-        <h2 data-i18n="newPrim"></h2>
+      <details class="acc dims" open><summary data-i18n="newPrim"></summary>
         <select id="prim-type">
           <option value="box" data-i18n="box"></option><option value="cylinder" data-i18n="cylinder"></option>
           <option value="cone" data-i18n="cone"></option><option value="torus" data-i18n="torus"></option>
@@ -69,10 +61,16 @@
           <label>Z<input type="number" id="pz" value="50" min="1"></label>
         </div>
         <button id="btn-create" data-i18n="create"></button>
-      </section>
+        <h3 class="sub" data-i18n="sketch"></h3>
+        <div class="row">
+          <button data-sk="rect" data-i18n="skRect"></button><button data-sk="circle" data-i18n="skCircle"></button><button data-sk="poly" data-i18n="skPoly"></button>
+        </div>
+        <label><span data-i18n="skThick"></span> <input type="number" id="sk-depth" value="10" min="0.1" step="0.5"></label>
+        <div class="row"><button id="sk-extrude" data-i18n="skExtrude" disabled></button><button id="sk-cut" data-i18n="skCut" disabled></button></div>
+        <p class="note" data-i18n="skHint"></p>
+      </details>
 
-      <section class="dims">
-        <h2 data-i18n="active"></h2>
+      <details class="acc dims" open><summary data-i18n="active"></summary>
         <div class="row">
           <button data-gizmo="translate" class="active" data-i18n="move"></button>
           <button data-gizmo="rotate" data-i18n="rotate"></button>
@@ -86,17 +84,15 @@
           <label>Z<input type="number" id="az" step="0.1"></label>
         </div>
         <button id="btn-mask-clear" data-i18n="clearMask"></button>
-      </section>
+      </details>
 
-      <section>
-        <h2 data-i18n="grid"></h2>
+      <details class="acc" open><summary data-i18n="grid"></summary>
         <label class="check"><input type="checkbox" id="grid-vis" checked> <span data-i18n="showGrid"></span></label>
         <label class="check"><input type="checkbox" id="snap"> <span data-i18n="snap"></span></label>
         <label><span data-i18n="cell"></span> <input type="number" id="grid-step" value="10" min="1" step="1"></label>
-      </section>
+      </details>
 
-      <section>
-        <h2 data-i18n="view"></h2>
+      <details class="acc" open><summary data-i18n="view"></summary>
         <select id="material">
           <option value="clay" data-i18n="clay"></option><option value="metal" data-i18n="metal"></option>
           <option value="wax" data-i18n="wax"></option>
@@ -104,12 +100,11 @@
         <label class="check"><input type="checkbox" id="wireframe"> <span data-i18n="wire"></span></label>
         <div class="row"><button id="btn-focus" data-i18n="focus"></button><button id="btn-frame" data-i18n="frameAll"></button></div>
         <div class="row"><button id="btn-cam" data-i18n="resetCam"></button><button id="btn-shot" data-i18n="shot"></button></div>
-      </section>
+      </details>
 
-      <section>
-        <h2 data-i18n="export"></h2>
+      <details class="acc" open><summary data-i18n="export"></summary>
         <div class="row"><button id="btn-stl">STL</button><button id="btn-obj">OBJ</button></div>
-      </section>
+      </details>
     </aside>
   </div>
 
@@ -117,6 +112,13 @@
   <dialog id="help">
     <h2 data-i18n="shortcuts"></h2>
     <table id="help-body"></table>
+    <form method="dialog"><button data-i18n="close"></button></form>
+  </dialog>
+
+  <!-- Modale Info, Termini e Privacy (contenuto generato da script.js da I18N) -->
+  <dialog id="legal">
+    <h2 id="legal-title"></h2>
+    <div id="legal-body"></div>
     <form method="dialog"><button data-i18n="close"></button></form>
   </dialog>
 
