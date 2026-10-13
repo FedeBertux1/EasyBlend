@@ -120,3 +120,27 @@ details.acc > :last-child { margin-bottom: 14px; }
 #legal h3 { margin: 12px 0 4px; font-size: 13px; color: var(--accent); }
 #legal p { margin: 0; line-height: 1.5; color: #cfcfcf; }
 #legal form { margin-top: 16px; }
+
+/* ===== v6: schede toolbar leggibili, barra vista fluttuante, HUD schizzo ===== */
+#app { grid-template-columns: 108px 1fr 270px; }
+#toolbar { overflow-x: hidden; }
+#tabs { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #1d1d1d; box-shadow: 0 1px 0 #3b3b3b; }
+#tabs button { display: flex; flex-direction: row; align-items: center; gap: 8px; padding: 7px 8px; font-size: 12px; text-align: left; white-space: nowrap; }
+#tabs button span { width: 16px; text-align: center; font-size: 13px; }
+#tabs button i { font-style: normal; overflow: hidden; text-overflow: ellipsis; }
+#toolbar .pane button { padding: 6px 2px; }
+
+#viewbar { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; align-items: center; gap: 4px; padding: 6px;
+  background: rgba(40, 40, 40, .88); border: 1px solid var(--border); border-radius: 8px; backdrop-filter: blur(6px); box-shadow: 0 4px 14px rgba(0, 0, 0, .45); z-index: 4; }
+#viewbar button, #viewbar .vb { width: 34px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
+#viewbar .vb { background: var(--panel-hi); border: 1px solid var(--border); border-radius: 4px; color: var(--text); }
+#viewbar .vb input { display: none; }
+#viewbar .vb:has(input:checked) { background: var(--accent); border-color: var(--accent); color: #fff; }
+#viewbar select { width: auto; padding: 6px; }
+#viewbar .sep { width: 1px; height: 22px; margin: 0 4px; background: #1d1d1d; box-shadow: 1px 0 0 #3b3b3b; }
+
+#sk-hud { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; padding: 8px 12px;
+  background: rgba(40, 40, 40, .92); border: 1px solid var(--accent); border-radius: 6px; z-index: 5; }
+#sk-hud label { display: flex; flex-direction: column; gap: 2px; font-size: 11px; color: var(--muted); }
+#sk-hud input { width: 96px; }
+.planes button { padding: 6px 2px; }
