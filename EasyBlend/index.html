@@ -31,7 +31,7 @@
         <option value="es">Español</option><option value="fr">Français</option>
       </select>
       <button id="btn-legal" data-i18n="legalBtn"></button>
-      <a id="donate" class="donate" href="#" target="_blank" rel="noopener noreferrer" data-i18n="donate"></a>
+      <button id="donate" class="donate" data-i18n="donate"></button>
       <button id="btn-help" data-i18n-title="shortcuts">?</button>
     </header>
 
@@ -93,6 +93,7 @@
         </div>
         <label><span data-i18n="skThick"></span> <input type="number" id="sk-depth" value="10" min="0.1" step="0.5"></label>
         <div class="row"><button id="sk-extrude" data-i18n="skExtrude" disabled></button><button id="sk-cut" data-i18n="skCut" disabled></button></div>
+        <p class="note" id="sk-status" role="status"></p>
         <p class="note" data-i18n="skHint2"></p>
       </details>
 
@@ -129,6 +130,17 @@
     <h2 data-i18n="shortcuts"></h2>
     <table id="help-body"></table>
     <form method="dialog"><button data-i18n="close"></button></form>
+  </dialog>
+
+  <!-- Modale ringraziamento donazioni: solo il pulsante interno apre Ko-fi (link impostato da script.js: CONFIG.kofiUrl) -->
+  <dialog id="donate-modal">
+    <h2 data-i18n="donateTitle"></h2>
+    <p data-i18n="donateMsg"></p>
+    <p class="note" data-i18n="donateNote"></p>
+    <form method="dialog" class="donate-actions">
+      <a id="donate-go" class="donate" href="#" target="_blank" rel="noopener noreferrer" data-i18n="donateGo"></a>
+      <button data-i18n="close"></button>
+    </form>
   </dialog>
 
   <!-- Modale Info, Termini e Privacy (contenuto generato da script.js da I18N) -->
