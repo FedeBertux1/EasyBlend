@@ -9,6 +9,10 @@
 
 ---
 
+START USING EASYBLEND NOW: https://easyblend.pages.dev/
+
+---
+
 ## 📖 Overview
 
 **EasyBlend** is a modern, lightweight, 100% client-side 3D web application designed for fast organic sculpting and parametric CAD modeling. Running entirely in the browser without backend dependencies, EasyBlend bridges the gap between the intuitive, fluid workflow of **Blender’s Sculpt Mode** and the precision of **Autodesk Fusion 360’s 2D sketching & boolean operations**.
