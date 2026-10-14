@@ -144,3 +144,12 @@ details.acc > :last-child { margin-bottom: 14px; }
 #sk-hud label { display: flex; flex-direction: column; gap: 2px; font-size: 11px; color: var(--muted); }
 #sk-hud input { width: 96px; }
 .planes button { padding: 6px 2px; }
+
+/* ===== v7: modale donazioni, pulsante donazioni come <button>, stato dello schizzo ===== */
+button.donate, a.donate { border: 0; font: inherit; font-weight: 600; cursor: pointer; display: inline-block; text-decoration: none; color: #fff; }
+#donate-modal { max-width: 440px; text-align: center; }
+#donate-modal p { line-height: 1.55; color: #cfcfcf; margin: 0 0 10px; }
+.donate-actions { display: flex; gap: 8px; justify-content: center; margin-top: 16px; }
+.donate-actions .donate { padding: 9px 16px; }
+#sk-status:empty { display: none; }
+#sk-status { color: var(--accent); }
