@@ -55,7 +55,7 @@ const I18N = {
     shortcuts: 'Keyboard shortcuts', close: 'Close', keyMode: 'Sculpt / Transform mode', keyInvert: 'Invert brush (hold)', keyDel: 'Delete object',
     errFormat: 'Unsupported format: use .glb, .gltf or .stl', errEmpty: 'No mesh found in the file.', errGltf: 'glTF error: ',
     cutBusy: 'Computing cut…', cutLoadErr: 'Could not load the boolean engine (internet connection needed).', cutFail: 'Cut failed: the mesh must be closed (watertight) and not self-intersecting.', cutNone: 'The sketch volume does not intersect the target mesh.', cutOk: 'Cut done.', cutNoMesh: 'Select a mesh to cut first.',
-    donateTitle: 'Thank you!', donateMsg: `Thank you for wanting to support EasyBlend! This project is completely free. Your contribution helps keep it updated and ad-free.`, donateNote: 'Ko-fi opens in a new tab. Pay by card or PayPal.', donateGo: 'Continue to Ko-fi ☕',
+    donateTitle: 'Thank you!', donateMsg: `Thank you for wanting to support EasyBlend! This project is completely free and open source. Your contribution helps keep it updated and ad-free.`, donateNote: 'Ko-fi opens in a new tab. Pay by card or PayPal.', donateGo: 'Continue to Ko-fi ☕',
     skLine: 'Line', skArc: 'Arc (3 points)', skFace: 'Face', skPlane: 'Work plane', skLen: 'Length (mm)', skAng: 'Angle (°)', skDia: 'Diameter (mm)',
     skHint2: 'Pick a plane (or Face, then click a mesh face). Line: click points, close on the first point. Arc: start, middle, end. Circle: center, then edge. Tab = type exact values, Enter = confirm, Esc = cancel.',
     objects: 'Objects & scene', newPrim: 'Primitives & 2D sketch', active: 'Transform & size', grid: 'Environment & grid', view: 'View & materials',
