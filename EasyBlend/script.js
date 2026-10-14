@@ -54,6 +54,8 @@ const I18N = {
     frameAll: 'Frame all', resetCam: 'Reset camera', shot: 'Screenshot (PNG)', export: 'Export (visible meshes, mm)',
     shortcuts: 'Keyboard shortcuts', close: 'Close', keyMode: 'Sculpt / Transform mode', keyInvert: 'Invert brush (hold)', keyDel: 'Delete object',
     errFormat: 'Unsupported format: use .glb, .gltf or .stl', errEmpty: 'No mesh found in the file.', errGltf: 'glTF error: ',
+    cutBusy: 'Computing cut…', cutLoadErr: 'Could not load the boolean engine (internet connection needed).', cutFail: 'Cut failed: the mesh must be closed (watertight) and not self-intersecting.', cutNone: 'The sketch volume does not intersect the target mesh.', cutOk: 'Cut done.', cutNoMesh: 'Select a mesh to cut first.',
+    donateTitle: 'Thank you!', donateMsg: `Thank you for wanting to support EasyBlend! This project is completely free and open source. Your contribution helps keep it updated and ad-free.`, donateNote: 'Ko-fi opens in a new tab. Pay by card or PayPal.', donateGo: 'Continue to Ko-fi ☕',
     skLine: 'Line', skArc: 'Arc (3 points)', skFace: 'Face', skPlane: 'Work plane', skLen: 'Length (mm)', skAng: 'Angle (°)', skDia: 'Diameter (mm)',
     skHint2: 'Pick a plane (or Face, then click a mesh face). Line: click points, close on the first point. Arc: start, middle, end. Circle: center, then edge. Tab = type exact values, Enter = confirm, Esc = cancel.',
     objects: 'Objects & scene', newPrim: 'Primitives & 2D sketch', active: 'Transform & size', grid: 'Environment & grid', view: 'View & materials',
@@ -75,6 +77,8 @@ const I18N = {
     frameAll: 'Inquadra tutto', resetCam: 'Reimposta fotocamera', shot: 'Screenshot (PNG)', export: 'Esporta (mesh visibili, mm)',
     shortcuts: 'Scorciatoie da tastiera', close: 'Chiudi', keyMode: 'Modalità Scultura / Trasforma', keyInvert: 'Inverti pennello (tieni premuto)', keyDel: 'Elimina oggetto',
     errFormat: 'Formato non supportato: usa .glb, .gltf o .stl', errEmpty: 'Nessuna mesh trovata nel file.', errGltf: 'Errore glTF: ',
+    cutBusy: 'Calcolo del taglio…', cutLoadErr: 'Impossibile caricare il motore booleano (serve la connessione a internet).', cutFail: 'Taglio non riuscito: la mesh deve essere chiusa (watertight) e senza autointersezioni.', cutNone: 'Il volume dello schizzo non interseca la mesh bersaglio.', cutOk: 'Taglio eseguito.', cutNoMesh: 'Seleziona prima una mesh da tagliare.',
+    donateTitle: 'Grazie!', donateMsg: `Grazie per voler sostenere EasyBlend! Questo progetto è completamente gratuito e open-source. Il tuo contributo aiuta a mantenerlo aggiornato e privo di pubblicità.`, donateNote: 'Ko-fi si apre in una nuova scheda. Pagamento con carta o PayPal.', donateGo: 'Prosegui su Ko-fi ☕',
     skLine: 'Linea', skArc: 'Arco (3 punti)', skFace: 'Faccia', skPlane: 'Piano di lavoro', skLen: 'Lunghezza (mm)', skAng: 'Angolo (°)', skDia: 'Diametro (mm)',
     skHint2: 'Scegli un piano (o Faccia, poi clicca su una faccia della mesh). Linea: clic sui punti, chiudi sul primo punto. Arco: inizio, punto intermedio, fine. Cerchio: centro, poi bordo. Tab = valori esatti, Invio = conferma, Esc = annulla.',
     objects: 'Oggetti e scena', newPrim: 'Primitive e schizzi 2D', active: 'Trasformazioni e dimensioni', grid: 'Ambiente e griglia', view: 'Vista e materiali',
@@ -96,6 +100,8 @@ const I18N = {
     frameAll: 'Encuadrar todo', resetCam: 'Restablecer cámara', shot: 'Captura (PNG)', export: 'Exportar (mallas visibles, mm)',
     shortcuts: 'Atajos de teclado', close: 'Cerrar', keyMode: 'Modo Escultura / Transformar', keyInvert: 'Invertir pincel (mantener)', keyDel: 'Eliminar objeto',
     errFormat: 'Formato no compatible: usa .glb, .gltf o .stl', errEmpty: 'No se encontró ninguna malla en el archivo.', errGltf: 'Error de glTF: ',
+    cutBusy: 'Calculando el corte…', cutLoadErr: 'No se pudo cargar el motor booleano (se necesita conexión a internet).', cutFail: 'El corte falló: la malla debe estar cerrada (estanca) y sin autointersecciones.', cutNone: 'El volumen del boceto no interseca la malla objetivo.', cutOk: 'Corte realizado.', cutNoMesh: 'Selecciona primero una malla para cortar.',
+    donateTitle: '¡Gracias!', donateMsg: `¡Gracias por querer apoyar EasyBlend! Este proyecto es totalmente gratuito y de código abierto. Tu aportación ayuda a mantenerlo actualizado y sin publicidad.`, donateNote: 'Ko-fi se abre en una pestaña nueva. Pago con tarjeta o PayPal.', donateGo: 'Continuar en Ko-fi ☕',
     skLine: 'Línea', skArc: 'Arco (3 puntos)', skFace: 'Cara', skPlane: 'Plano de trabajo', skLen: 'Longitud (mm)', skAng: 'Ángulo (°)', skDia: 'Diámetro (mm)',
     skHint2: 'Elige un plano (o Cara y haz clic en una cara de la malla). Línea: clic en los puntos, cierra en el primero. Arco: inicio, punto medio, fin. Círculo: centro y luego borde. Tab = valores exactos, Intro = confirmar, Esc = cancelar.',
     objects: 'Objetos y escena', newPrim: 'Primitivas y bocetos 2D', active: 'Transformación y tamaño', grid: 'Entorno y cuadrícula', view: 'Vista y materiales',
@@ -117,6 +123,8 @@ const I18N = {
     frameAll: 'Tout cadrer', resetCam: 'Réinitialiser la caméra', shot: 'Capture (PNG)', export: 'Exporter (maillages visibles, mm)',
     shortcuts: 'Raccourcis clavier', close: 'Fermer', keyMode: 'Mode Sculpture / Transformation', keyInvert: 'Inverser le pinceau (maintenir)', keyDel: "Supprimer l'objet",
     errFormat: 'Format non pris en charge : utilisez .glb, .gltf ou .stl', errEmpty: 'Aucun maillage trouvé dans le fichier.', errGltf: 'Erreur glTF : ',
+    cutBusy: 'Calcul de la coupe…', cutLoadErr: `Impossible de charger le moteur booléen (connexion internet requise).`, cutFail: 'Échec de la coupe : le maillage doit être fermé (étanche) et sans auto-intersections.', cutNone: `Le volume du croquis ne coupe pas le maillage cible.`, cutOk: 'Coupe effectuée.', cutNoMesh: `Sélectionnez d'abord un maillage à couper.`,
+    donateTitle: 'Merci !', donateMsg: `Merci de vouloir soutenir EasyBlend ! Ce projet est entièrement gratuit et open source. Votre contribution aide à le maintenir à jour et sans publicité.`, donateNote: `Ko-fi s'ouvre dans un nouvel onglet. Paiement par carte ou PayPal.`, donateGo: 'Continuer sur Ko-fi ☕',
     skLine: 'Ligne', skArc: 'Arc (3 points)', skFace: 'Face', skPlane: 'Plan de travail', skLen: 'Longueur (mm)', skAng: 'Angle (°)', skDia: 'Diamètre (mm)',
     skHint2: 'Choisissez un plan (ou Face, puis cliquez sur une face du maillage). Ligne : cliquez les points, fermez sur le premier. Arc : début, milieu, fin. Cercle : centre puis bord. Tab = valeurs exactes, Entrée = valider, Échap = annuler.',
     objects: 'Objets et scène', newPrim: 'Primitives et croquis 2D', active: 'Transformation et dimensions', grid: 'Environnement et grille', view: 'Vue et matériaux',
@@ -687,7 +695,8 @@ function setGizmo(g) {
    4) Snap a estremi, centri e origine con quadratino verde.
    Ogni entità è una polilinea di punti 2D (u, v) sul piano; il profilo = concatenazione ordinata, chiuso se ultimo = primo punto. */
 const sk = { tool: 'line', planeKey: 'xy', plane: null, o: new THREE.Vector3(), u: new THREE.Vector3(), v: new THREE.Vector3(), n: new THREE.Vector3(),
-             ents: [], snapPts: [[0, 0]], clicks: [], cur: null, pts: [], done: false };
+             ents: [], snapPts: [[0, 0]], clicks: [], cur: null, pts: [], loops: [], tip: null, target: null, done: false };
+// tip = ultimo punto della catena: cambiando strumento (linea/arco) il tracciato prosegue da lì; loops = profili chiusi; target = mesh scelta con "Faccia"
 const PLANES = { xy: [[1, 0, 0], [0, 0, -1]], xz: [[1, 0, 0], [0, 1, 0]], yz: [[0, 0, -1], [0, 1, 0]] };   // [u, v] in coordinate Three.js; n = u × v
 const to3 = p => sk.o.clone().addScaledVector(sk.u, p[0]).addScaledVector(sk.v, p[1]);                    // 2D piano → mondo
 
@@ -720,7 +729,7 @@ function skSetPlane(key) {
   sketchReset();
 }
 function sketchReset() {
-  sk.ents = []; sk.snapPts = [[0, 0]]; sk.clicks = []; sk.pts = []; sk.done = false; sk.cur = null; skMarker.visible = false;
+  sk.ents = []; sk.snapPts = [[0, 0]]; sk.clicks = []; sk.pts = []; sk.loops = []; sk.tip = null; sk.target = null; sk.done = false; sk.cur = null; skMarker.visible = false;
   if (sk.planeKey === 'face') sk.plane = null;               // "Faccia": va scelta di nuovo ad ogni schizzo
   skGrid.visible = state.mode === 'sketch' && !!sk.plane;
   skDraw(); skMarkUI(); skReady();
@@ -739,37 +748,75 @@ function arc3(a, m, b) {                                    // arco per 3 punti:
   pts[0] = a; pts[24] = b; return pts;                      // estremi esatti (servono allo snap/chiusura)
 }
 function skAdd(poly, extraSnap) { sk.ents.push(poly); sk.snapPts.push(poly[0], poly[poly.length - 1]); if (extraSnap) sk.snapPts.push(extraSnap); }
-function skProfile() {                                      // contorno = polilinee concatenate; chiuso se ultimo punto = primo
-  const pts = []; sk.ents.forEach(e => e.forEach((p, i) => { if (i || !pts.length) pts.push(p); }));
-  const closed = pts.length >= 4 && Math.hypot(pts[0][0] - pts.at(-1)[0], pts[0][1] - pts.at(-1)[1]) < 1e-6;
-  sk.pts = closed ? pts.slice(0, -1) : pts; sk.done = closed; skReady();
-}
-function skClose() { sk.clicks = []; skProfile(); skDraw(); }   // Invio / doppio clic: termina la catena
-
-function skPlace(p) {                                       // aggiunge un punto al tool corrente (da clic o da HUD)
-  if (sk.done) { sk.ents = []; sk.snapPts = [[0, 0]]; sk.done = false; sk.clicks = []; }   // nuovo profilo (uno alla volta)
-  const c = sk.clicks, last = sk.ents.length ? sk.ents.at(-1).at(-1) : null;
-  if (sk.tool === 'line') {
-    if (!c.length) c.push(last || p);                       // la catena continua dall'ultimo punto
-    if (c[0][0] !== p[0] || c[0][1] !== p[1]) { skAdd([c[0], p]); sk.clicks = [p]; }
-  } else if (sk.tool === 'arc') {
-    if (!c.length) { c.push(last || p); if (!last) return skDraw(); }   // senza catena: il primo clic è l'inizio
-    c.push(p);
-    if (c.length === 3) { skAdd(arc3(c[0], c[1], c[2])); sk.clicks = []; }
-  } else {                                                  // cerchio e rettangolo: centro/angolo + secondo punto
-    if (!c.length) c.push(p);
-    else {
-      const a = c[0]; sk.ents = []; sk.snapPts = [[0, 0]];
-      if (sk.tool === 'circle') skAdd(circlePts(a, Math.hypot(p[0] - a[0], p[1] - a[1])), a);
-      else [[a, [p[0], a[1]]], [[p[0], a[1]], p], [p, [a[0], p[1]]], [[a[0], p[1]], a]].forEach(sg => skAdd(sg));
-      sk.clicks = [];
+const skStart = () => sk.clicks[0] || (['line', 'arc'].includes(sk.tool) ? sk.tip : null);   // punto da cui parte l'elemento in corso
+function skLoops() {                                        // cicli chiusi: cerchi/rettangoli e catene di linee+archi con estremi coincidenti (snap = coordinate identiche)
+  const same = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]) < 1e-6, loops = [], used = new Set();
+  sk.ents.forEach((e, i) => { if (same(e[0], e.at(-1))) { used.add(i); loops.push(e.slice(0, -1)); } });
+  sk.ents.forEach((_, i0) => {
+    if (used.has(i0)) return;
+    const idx = [i0], pts = sk.ents[i0].slice();
+    for (let guard = 0; guard <= sk.ents.length; guard++) {
+      const end = pts.at(-1);
+      if (pts.length > 2 && same(pts[0], end)) { idx.forEach(i => used.add(i)); loops.push(pts.slice(0, -1)); return; }   // catena chiusa
+      const j = sk.ents.findIndex((e, k) => !used.has(k) && !idx.includes(k) && (same(e[0], end) || same(e.at(-1), end)));
+      if (j < 0) return;
+      const e = same(sk.ents[j][0], end) ? sk.ents[j] : sk.ents[j].slice().reverse();
+      idx.push(j); e.forEach((p, q) => q && pts.push(p));
     }
+  });
+  return loops;
+}
+const skArea = p => Math.abs(p.reduce((s, q, i) => s + q[0] * p[(i + 1) % p.length][1] - p[(i + 1) % p.length][0] * q[1], 0)) / 2;
+const skInside = (pt, poly) => {                            // punto-in-poligono (ray casting)
+  let r = false;
+  for (let a = 0, b = poly.length - 1; a < poly.length; b = a++)
+    if ((poly[a][1] > pt[1]) !== (poly[b][1] > pt[1]) && pt[0] < (poly[b][0] - poly[a][0]) * (pt[1] - poly[a][1]) / (poly[b][1] - poly[a][1]) + poly[a][0]) r = !r;
+  return r;
+};
+function skShapes(flipY) {                                  // cicli → THREE.Shape: i cicli contenuti in un altro diventano fori (flipY: per tagli verso -n)
+  const V = p => new THREE.Vector2(p[0], flipY ? -p[1] : p[1]), outers = [];
+  sk.loops.map(pts => ({ pts, a: skArea(pts) })).sort((x, y) => y.a - x.a).forEach(l => {
+    const o = outers.find(o => skInside(l.pts[0], o.pts));
+    if (o) o.holes.push(l.pts); else outers.push({ pts: l.pts, holes: [] });
+  });
+  return outers.map(o => { const sh = new THREE.Shape(o.pts.map(V)); sh.holes = o.holes.map(hp => new THREE.Path(hp.map(V))); return sh; });
+}
+// Riempimento traslucido dei profili chiusi (evidenziazione)
+const skFill = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: CONFIG.accent, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthTest: false }));
+skFill.renderOrder = 10; skFill.frustumCulled = false; skFill.visible = false; scene.add(skFill);
+function skFillUpdate() {
+  skFill.geometry.dispose();                                // dispose della geometria temporanea precedente
+  const shapes = sk.loops.length ? skShapes(false) : [];
+  skFill.geometry = shapes.length ? new THREE.ShapeGeometry(shapes).applyMatrix4(new THREE.Matrix4().makeBasis(sk.u, sk.v, sk.n).setPosition(sk.o)) : new THREE.BufferGeometry();
+  skFill.visible = shapes.length > 0;
+}
+const skStatus = key => { $('sk-status').textContent = key ? t(key) : ''; };   // notifiche di stato (tradotte)
+function skProfile() { sk.loops = skLoops(); sk.done = sk.loops.length > 0; skReady(); }
+function skClose() { sk.clicks = []; sk.tip = null; skProfile(); skDraw(); }   // Invio / doppio clic: termina la catena
+
+function skPlace(p) {                                       // aggiunge un punto al tool corrente (da clic o da HUD); NIENTE reset al cambio di strumento
+  const c = sk.clicks, tip = sk.tip;
+  if (sk.tool === 'line') {
+    if (!c.length) c.push(tip || p);                        // la catena continua dall'ultimo punto, anche dopo un arco
+    if (c[0][0] !== p[0] || c[0][1] !== p[1]) { skAdd([c[0], p]); sk.clicks = [p]; sk.tip = p; }
+  } else if (sk.tool === 'arc') {
+    if (!c.length) { c.push(tip || p); if (!tip) return skDraw(); }   // senza catena il primo clic è l'inizio dell'arco
+    c.push(p);
+    if (c.length === 3) { const a = arc3(c[0], c[1], c[2]); skAdd(a); sk.clicks = []; sk.tip = a.at(-1); }
+  } else if (!c.length) c.push(p);                          // cerchio / rettangolo: centro (o angolo) …
+  else {                                                    // … e secondo punto: si AGGIUNGONO allo schizzo senza cancellare il resto
+    const a = c[0];
+    if (sk.tool === 'circle') skAdd(circlePts(a, Math.hypot(p[0] - a[0], p[1] - a[1])), a);
+    else [[a, [p[0], a[1]]], [[p[0], a[1]], p], [p, [a[0], p[1]]], [[a[0], p[1]], a]].forEach(sg => skAdd(sg));
+    sk.clicks = [];
   }
-  skProfile(); if (sk.done) sk.clicks = []; skDraw();
+  const before = sk.loops.length; skProfile();
+  if (sk.loops.length > before) { sk.clicks = []; sk.tip = null; }   // catena chiusa → profilo evidenziato; il prossimo elemento inizia un nuovo tracciato
+  skDraw();
 }
 
 function skDraw() {                                         // anteprima: entità + elemento in corso fino al cursore
-  const polys = [...sk.ents], c = sk.clicks, cur = sk.cur;
+  const s = skStart(), c = sk.clicks.length ? sk.clicks : (s ? [s] : []), cur = sk.cur, polys = [...sk.ents];
   if (cur && c.length) {
     if (sk.tool === 'line') polys.push([c[0], cur]);
     else if (sk.tool === 'rect') polys.push([c[0], [cur[0], c[0][1]], cur, [c[0][0], cur[1]], c[0]]);
@@ -778,10 +825,10 @@ function skDraw() {                                         // anteprima: entit�
   }
   const v = []; polys.forEach(pl => { for (let i = 1; i < pl.length; i++) v.push(to3(pl[i - 1]), to3(pl[i])); });
   skLine.geometry.dispose(); skLine.geometry = new THREE.BufferGeometry().setFromPoints(v); skLine.visible = v.length > 0;
-  skHud(); wake();
+  skFillUpdate(); skHud(); wake();
 }
 function skHud() {                                          // campi numerici sovrapposti (Lunghezza/Angolo, Diametro)
-  const c = sk.clicks[0], tl = sk.tool, show = state.mode === 'sketch' && c && sk.cur && (tl === 'line' || tl === 'circle');
+  const c = skStart(), tl = sk.tool, show = state.mode === 'sketch' && c && sk.cur && (tl === 'line' || tl === 'circle');
   $('sk-hud').hidden = !show;
   if (!show) return;
   const dx = sk.cur[0] - c[0], dy = sk.cur[1] - c[1];
@@ -790,7 +837,7 @@ function skHud() {                                          // campi numerici so
   if (document.activeElement !== $('hud-b')) $('hud-b').value = ((Math.atan2(dy, dx) * DEG + 360) % 360).toFixed(1);
 }
 function hudConfirm() {                                     // valori digitati → punto esatto
-  const c = sk.clicks[0], a = $('hud-a').valueAsNumber, b = $('hud-b').valueAsNumber;
+  const c = skStart(), a = $('hud-a').valueAsNumber, b = $('hud-b').valueAsNumber;
   if (!c || !(a > 0)) return;
   if (sk.tool === 'circle') skPlace([c[0] + a / 2, c[1]]);   // diametro → punto sul bordo
   else if (sk.tool === 'line' && Number.isFinite(b)) skPlace([c[0] + a * Math.cos(b / DEG), c[1] + a * Math.sin(b / DEG)]);   // angolo in gradi → radianti
@@ -803,6 +850,7 @@ function skPoint(e) {                                       // mouse → coordin
     if (e.type !== 'pointerdown') return null;
     const hit = raycaster.intersectObjects(recs.filter(r => r.mesh.visible).map(r => r.mesh))[0];
     if (!hit) return null;
+    sk.target = recs.find(r => r.mesh === hit.object) || null;   // la mesh da tagliare = quella su cui si è scelta la faccia
     sk.n.copy(hit.face.normal).transformDirection(hit.object.matrixWorld); sk.o.copy(hit.point);
     sk.u.crossVectors(sk.n, Math.abs(sk.n.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0)).normalize();
     sk.v.crossVectors(sk.n, sk.u); skPlaneReady(); skMarkUI(); return null;
@@ -828,36 +876,70 @@ function sketchDown(e) {
 const sketchMove = rafThrottle(e => { const p = skPoint(e); if (p) { sk.cur = skSnap(p); skDraw(); } });   // throttling: 1 aggiornamento per frame
 const sketchUp = () => {};
 
-function skExtrude() {                                      // nuovo corpo: schizzo estruso di "spessore" mm lungo la normale del piano
+function skExtrude() {                                      // un nuovo corpo per ogni profilo esterno (i cicli interni diventano fori)
   if (!sk.done) return;
-  const depth = Math.max(0.1, +$('sk-depth').value || 10);
-  const g = new THREE.ExtrudeGeometry(new THREE.Shape(sk.pts.map(p => new THREE.Vector2(p[0], p[1]))), { depth, bevelEnabled: false, curveSegments: 32 });
-  g.applyMatrix4(new THREE.Matrix4().makeBasis(sk.u, sk.v, sk.n).setPosition(sk.o));   // piano locale (u, v, n) → mondo
-  spawn([{ geo: g, name: t('sketch') }], null, true);
+  const depth = Math.max(0.1, +$('sk-depth').value || 10), mtx = new THREE.Matrix4().makeBasis(sk.u, sk.v, sk.n).setPosition(sk.o);
+  const items = skShapes(false).map(sh => ({ geo: new THREE.ExtrudeGeometry(sh, { depth, bevelEnabled: false, curveSegments: 1 }).applyMatrix4(mtx), name: t('sketch') }));
+  spawn(items, null, true);                                 // spawn → prep() fonde i vertici e libera la geometria sorgente
   setMode('sculpt');
 }
-function skCut() {                                          // scavo: i vertici frontali dentro il prisma (h ∈ [-spessore, 0]) vengono portati sul fondo
-  if (!sk.done || !active) return;
-  const depth = Math.max(0.1, +$('sk-depth').value || 10), P = pos(), N = nrm(), w = new THREE.Vector3(), idx = [], poly = sk.pts;
-  const inside = (x, y) => {                                // punto-in-poligono (ray casting)
-    let r = false;
-    for (let a = 0, b = poly.length - 1; a < poly.length; b = a++)
-      if ((poly[a][1] > y) !== (poly[b][1] > y) && x < (poly[b][0] - poly[a][0]) * (y - poly[a][1]) / (poly[b][1] - poly[a][1]) + poly[a][0]) r = !r;
-    return r;
-  };
-  for (let i = 0; i < P.length / 3; i++) {
-    w.set(P[3 * i], P[3 * i + 1], P[3 * i + 2]).sub(sk.o);
-    const h = w.dot(sk.n);
-    if (h > -depth && h < 1 && N[3 * i] * sk.n.x + N[3 * i + 1] * sk.n.y + N[3 * i + 2] * sk.n.z > 0 && inside(w.dot(sk.u), w.dot(sk.v))) idx.push(i);
-  }
-  if (!idx.length) return;
-  stroke = { saved: new Map(), rec: active }; touch({ idx });    // registra lo "prima" per l'undo
-  idx.forEach(i => {
-    w.set(P[3 * i], P[3 * i + 1], P[3 * i + 2]).sub(sk.o);
-    const q = sk.o.clone().addScaledVector(sk.u, w.dot(sk.u)).addScaledVector(sk.v, w.dot(sk.v)).addScaledVector(sk.n, -depth);
-    P[3 * i] = q.x; P[3 * i + 1] = q.y; P[3 * i + 2] = q.z;
-  });
-  pushHistory(); stroke = null; commit(active); markDirty(); setMode('sculpt');
+
+/* Taglio booleano VERO con Manifold (WASM, caricato alla prima richiesta da CDN, versione fissata).
+   Il volume dello schizzo (prisma di spessore "depth") è esteso verso il lato in cui si trova il corpo; A.subtract(prisma) restituisce una
+   mesh chiusa e valida. Richiede che la mesh bersaglio sia chiusa (watertight): le mesh scolpite partite da primitive lo sono. */
+const MANIFOLD_URL = 'https://cdn.jsdelivr.net/npm/manifold-3d@3.4.1/manifold.js';
+let manifoldP = null;
+function loadManifold() {
+  return manifoldP || (manifoldP = import(MANIFOLD_URL).then(async m => { const w = await m.default(); w.setup(); return w; })
+    .catch(e => { manifoldP = null; throw e; }));          // se fallisce (offline) si può riprovare
+}
+function replaceGeometry(rec, out) {                        // nuova topologia dal booleano: ricrea buffer, normali, maschera, adiacenze, bounding → si può subito scolpire
+  const n = out.vertProperties.length / out.numProp, P = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) for (let a = 0; a < 3; a++) P[3 * i + a] = out.vertProperties[i * out.numProp + a];
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(P, 3).setUsage(THREE.DynamicDrawUsage));
+  g.setIndex(new THREE.BufferAttribute(Uint32Array.from(out.triVerts), 1));
+  g.computeVertexNormals(); g.attributes.normal.setUsage(THREE.DynamicDrawUsage);
+  g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(n * 3).fill(1), 3).setUsage(THREE.DynamicDrawUsage));
+  g.computeBoundingSphere();                                // necessario al raycast dei pennelli
+  const old = rec.geo; rec.geo = g; rec.mesh.geometry = g;
+  rec.mask = new Float32Array(n); rec.nb = null; rec.bb = null;   // maschera e adiacenze si ricostruiscono sulla nuova mesh
+  old.dispose(); clearHistory(); refreshSel(); syncDims(); markDirty();
+}
+async function skCut() {
+  const tgt = sk.target && recs.includes(sk.target) ? sk.target : active;
+  if (!sk.done) return;
+  if (!tgt) return skStatus('cutNoMesh');
+  skStatus('cutBusy'); $('sk-cut').disabled = true;
+  let wasm;
+  try { wasm = await loadManifold(); } catch (e) { console.error(e); skReady(); return skStatus('cutLoadErr'); }
+  const wasmObjs = [];                                      // oggetti WASM: vanno liberati a mano con delete()
+  try {
+    bake(tgt);                                              // matrice identità: coordinate locali = mondo
+    const depth = Math.max(0.1, +$('sk-depth').value || 10), margin = Math.max(0.5, depth * 0.02);
+    tgt.geo.computeBoundingBox();
+    const dir = tgt.geo.boundingBox.getCenter(new THREE.Vector3()).sub(sk.o).dot(sk.n) >= 0 ? 1 : -1;   // verso il lato dove sta il corpo
+    const basis = dir > 0 ? [sk.u, sk.v, sk.n] : [sk.u, sk.v.clone().negate(), sk.n.clone().negate()];  // base destrorsa che punta verso "dir"
+    const mtx = new THREE.Matrix4().makeBasis(...basis).setPosition(sk.o.clone().addScaledVector(sk.n, -dir * margin));   // parte poco "fuori" dal piano: niente facce coplanari
+    const toM = geo => {
+      const mesh = new wasm.Mesh({ numProp: 3, vertProperties: Float32Array.from(geo.attributes.position.array), triVerts: Uint32Array.from(geo.index.array) });
+      if (mesh.merge) mesh.merge();                         // ricuce piccole aperture
+      const m = new wasm.Manifold(mesh); wasmObjs.push(m); return m;
+    };
+    let res = toM(tgt.geo);
+    if (res.isEmpty()) throw new Error('target not manifold');
+    const nT = tgt.geo.index.count;
+    for (const sh of skShapes(dir < 0)) {                   // un utensile per ogni profilo esterno (con i suoi fori)
+      const cg = prep(new THREE.ExtrudeGeometry(sh, { depth: depth + margin, bevelEnabled: false, curveSegments: 1 }).applyMatrix4(mtx));
+      const cm = toM(cg); cg.dispose();                     // dispose della geometria temporanea dell'utensile
+      res = res.subtract(cm); wasmObjs.push(res);
+    }
+    const out = res.getMesh();
+    if (!out.triVerts.length || out.triVerts.length === nT) { skStatus(out.triVerts.length ? 'cutNone' : 'cutFail'); return; }   // invariata = nessuna intersezione
+    replaceGeometry(tgt, out);
+    setMode('sculpt'); skStatus('cutOk');
+  } catch (e) { console.error(e); skStatus('cutFail'); }
+  finally { wasmObjs.forEach(m => m.delete()); skReady(); }
 }
 
 /* ---------- 8. IMPORT E PRIMITIVE ---------- */
@@ -1015,7 +1097,8 @@ viewport.addEventListener('dragleave', () => viewport.classList.remove('drop'));
 viewport.addEventListener('drop', e => { e.preventDefault(); viewport.classList.remove('drop'); [...e.dataTransfer.files].forEach(importFile); });
 
 /* --- Donazioni (Ko-fi), modale legale e comandi dello schizzo --- */
-$('donate').href = CONFIG.kofiUrl;                          // rel="noopener noreferrer" e target="_blank" sono già nell'HTML
+$('donate-go').href = CONFIG.kofiUrl;                      // link finale (target="_blank" rel="noopener noreferrer" già nell'HTML)
+$('donate').addEventListener('click', () => $('donate-modal').showModal());   // il pulsante apre prima il ringraziamento
 function buildLegal() {                                     // 3 punti: privacy, disclaimer AS IS, proprietà intellettuale (testi in I18N)
   $('legal-title').textContent = t('legalTitle');
   $('legal-body').innerHTML = [1, 2, 3].map(n => `<h3>${t('lg' + n + 'h')}</h3><p>${t('lg' + n)}</p>`).join('');
@@ -1046,7 +1129,7 @@ $('btn-shot').addEventListener('click', screenshot);
 
 /* --- Scorciatoie da tastiera --- */
 window.addEventListener('keydown', e => {
-  if ($('help').open || $('legal').open || ['number', 'select-one'].includes(e.target.type)) return;
+  if ($('help').open || $('legal').open || $('donate-modal').open || ['number', 'select-one'].includes(e.target.type)) return;
   const k = e.key.toLowerCase();
   if ((e.ctrlKey || e.metaKey) && k === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
   if ((e.ctrlKey || e.metaKey) && k === 'y') { e.preventDefault(); redo(); return; }
@@ -1054,7 +1137,7 @@ window.addEventListener('keydown', e => {
   const tools = { d: 'draw', s: 'smooth', g: 'grab', l: 'flatten', i: 'inflate', p: 'pinch', m: 'mask', c: 'clayB', b: 'blob', k: 'snake', n: 'nudge' };
   const gizmos = { w: 'translate', e: 'rotate', r: 'scale' };
   if (e.key === 'Enter' && state.mode === 'sketch') skClose();
-  else if (e.key === 'Escape' && state.mode === 'sketch') { if (sk.clicks.length) { sk.clicks = []; skDraw(); } else setMode('sculpt'); }
+  else if (e.key === 'Escape' && state.mode === 'sketch') { if (sk.clicks.length || sk.tip) { sk.clicks = []; sk.tip = null; skDraw(); } else setMode('sculpt'); }   // Esc: prima chiude la catena, poi esce
   else if (e.key === 'Tab' && state.mode === 'sketch' && !$('sk-hud').hidden) { e.preventDefault(); $('hud-a').focus(); $('hud-a').select(); }   // Tab → HUD numerico
   else if (e.key === 'Tab') { e.preventDefault(); setMode(state.mode === 'transform' ? 'sculpt' : 'transform'); }
   else if (e.key === 'Delete' && active) removeMesh(active);
